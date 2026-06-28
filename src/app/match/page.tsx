@@ -10,6 +10,7 @@ import {
 import { Item } from '@/shared/components/ui/item'
 import { CrownIcon } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function Match() {
@@ -18,8 +19,14 @@ export default function Match() {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
   ])
 
+  const router = useRouter()
+
   const selectWinner = (countryCode: string): void => {
     setWinner(countryCode)
+  }
+
+  const seeLeaderboard = (): void => {
+    router.push('/leaderboard')
   }
 
   return (
@@ -27,6 +34,12 @@ export default function Match() {
       <FieldSet>
         <FieldLegend>Halo, Wahyu!</FieldLegend>
         <FieldDescription>Bangbayang World Cup 26</FieldDescription>
+        <FieldLabel
+          className="cursor-pointer hover:underline"
+          onClick={seeLeaderboard}
+        >
+          Lihat Klasemen
+        </FieldLabel>
         <FieldGroup>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {matches.map((match, matchIdx) => (
