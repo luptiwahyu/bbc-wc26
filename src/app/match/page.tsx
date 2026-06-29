@@ -8,11 +8,88 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
+type status = 'upcoming' | 'live' | 'finished'
+
+interface Country {
+  id: string
+  name: string
+  code: string
+}
+
+interface Match {
+  id: string
+  home_team: Country
+  away_team: Country
+  status: status
+  result_winner: string | null
+}
+
+const dataMatches: Match[] = [
+  {
+    id: '1',
+    home_team: {
+      id: '1',
+      name: 'Jerman',
+      code: 'GER',
+    },
+    away_team: {
+      id: '2',
+      name: 'Inggris',
+      code: 'ENG',
+    },
+    status: 'live',
+    result_winner: null,
+  },
+  {
+    id: '2',
+    home_team: {
+      id: '1',
+      name: 'Belanda',
+      code: 'NED',
+    },
+    away_team: {
+      id: '2',
+      name: 'Jepang',
+      code: 'JPN',
+    },
+    status: 'live',
+    result_winner: null,
+  },
+  {
+    id: '3',
+    home_team: {
+      id: '1',
+      name: 'Brasil',
+      code: 'BRA',
+    },
+    away_team: {
+      id: '2',
+      name: 'Mesir',
+      code: 'EGY',
+    },
+    status: 'live',
+    result_winner: null,
+  },
+  {
+    id: '4',
+    home_team: {
+      id: '1',
+      name: 'Kanada',
+      code: 'CAN',
+    },
+    away_team: {
+      id: '2',
+      name: 'Kolombia',
+      code: 'COL',
+    },
+    status: 'live',
+    result_winner: null,
+  },
+]
+
 export default function Match() {
   const [winner, setWinner] = useState<string>('')
-  const [matches] = useState<number[]>([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-  ])
+  const [matches] = useState<Match[]>(dataMatches)
 
   const selectWinner = (countryCode: string): void => {
     setWinner(countryCode)
@@ -27,57 +104,57 @@ export default function Match() {
       </FieldLabel>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {matches.map((match, matchIdx) => (
+        {matches.map((match) => (
           <Item
-            key={matchIdx}
+            key={match.id}
             variant="outline"
             className="w-fit rounded-tr-4xl rounded-bl-4xl px-6"
           >
             <div className="flex space-x-4">
               <div
                 className="flex flex-col w-[50px] md:w-full items-center space-y-2 cursor-pointer"
-                onClick={() => selectWinner('GER')}
+                onClick={() => selectWinner(match.home_team.code)}
               >
                 <CrownIcon
                   size={18}
                   className={
-                    winner === 'GER'
-                      ? 'fill-yellow-400 stroke-1'
+                    winner === match.home_team.code
+                      ? 'fill-yellow-400 stroke-1 stroke-yellow-600'
                       : 'fill-gray-300 stroke-1 stroke-gray-300'
                   }
                 />
                 <Image
-                  src="https://api.fifa.com/api/v3/picture/flags-sq-4/GER"
+                  src={`https://api.fifa.com/api/v3/picture/flags-sq-4/${match.home_team.code}`}
                   width={200}
                   height={200}
                   alt="flag"
                   loading="eager"
-                  className="rounded-tr-2xl rounded-bl-2xl w-full h-auto"
+                  className="rounded-tr-2xl rounded-bl-2xl w-full h-auto border"
                 />
-                <FieldLabel>Jerman</FieldLabel>
+                <FieldLabel>{match.home_team.name}</FieldLabel>
               </div>
               <div className="flex items-center justify-center">VS</div>
               <div
                 className="flex flex-col w-[50px] md:w-full items-center space-y-2 cursor-pointer"
-                onClick={() => selectWinner('FRA')}
+                onClick={() => selectWinner(match.away_team.code)}
               >
                 <CrownIcon
                   size={18}
                   className={
-                    winner === 'FRA'
-                      ? 'fill-yellow-400 stroke-1'
+                    winner === match.away_team.code
+                      ? 'fill-yellow-400 stroke-1 stroke-yellow-600'
                       : 'fill-gray-300 stroke-1 stroke-gray-300'
                   }
                 />
                 <Image
-                  src="https://api.fifa.com/api/v3/picture/flags-sq-4/USA"
+                  src={`https://api.fifa.com/api/v3/picture/flags-sq-4/${match.away_team.code}`}
                   width={200}
                   height={200}
                   alt="flag"
                   loading="eager"
-                  className="rounded-tr-2xl rounded-bl-2xl w-full h-auto"
+                  className="rounded-tr-2xl rounded-bl-2xl w-full h-auto border"
                 />
-                <FieldLabel>Prancis</FieldLabel>
+                <FieldLabel>{match.away_team.name}</FieldLabel>
               </div>
             </div>
           </Item>

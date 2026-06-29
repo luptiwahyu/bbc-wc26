@@ -34,17 +34,17 @@ const dataPlayers: Player[] = [
   {
     id: '1',
     name: 'Askur',
-    avatar_url: 'https://github.com/evilrabbit.png',
+    avatar_url: 'https://avatars.githubusercontent.com/u/6880091?v=4',
   },
   {
     id: '2',
     name: 'Caki',
-    avatar_url: 'https://github.com/evilrabbit.png',
+    avatar_url: 'https://avatars.githubusercontent.com/u/6880092?v=4',
   },
   {
     id: '3',
     name: 'Dimas',
-    avatar_url: 'https://github.com/evilrabbit.png',
+    avatar_url: 'https://avatars.githubusercontent.com/u/6880093?v=4',
   },
 ]
 
@@ -57,7 +57,7 @@ export default function Player() {
     setSelectedPlayer(player)
   }
 
-  const next = (): void => {
+  const submit = (): void => {
     router.push('/match')
   }
 
@@ -91,7 +91,12 @@ export default function Player() {
                 </ItemActions>
               </Item>
             ))}
-            <Button className="mt-2" size="lg" onClick={next}>
+            <Button
+              className="mt-2"
+              size="lg"
+              disabled={!selectedPlayer}
+              onClick={submit}
+            >
               LANJUT
             </Button>
           </Field>
