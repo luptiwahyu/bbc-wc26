@@ -1,12 +1,7 @@
 'use client'
 
-import {
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
-} from '@/shared/components/ui/field'
+import AppContent from '@/shared/components/ui/app-content'
+import { FieldLabel } from '@/shared/components/ui/field'
 import {
   Table,
   TableBody,
@@ -15,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/components/ui/table'
+import Link from 'next/link'
 import { useState } from 'react'
 
 interface Leaderboard {
@@ -53,39 +49,42 @@ export default function Leaderboard() {
   const [leaderboards] = useState<Leaderboard[]>(data)
 
   return (
-    <FieldGroup>
-      <FieldSet>
-        <FieldLegend>Halo, Wahyu!</FieldLegend>
-        <FieldDescription>Bangbayang World Cup 26</FieldDescription>
-        <FieldGroup>
-          <div className="overflow-hidden rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Pemain</TableHead>
-                  <TableHead className="text-center">Main</TableHead>
-                  <TableHead className="text-center">Menang</TableHead>
-                  <TableHead className="text-center">Kalah</TableHead>
-                  <TableHead className="text-center font-bold">Poin</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {leaderboards.map((player, playerIdx) => (
-                  <TableRow key={playerIdx}>
-                    <TableCell>{player.name}</TableCell>
-                    <TableCell className="text-center">{player.play}</TableCell>
-                    <TableCell className="text-center">{player.win}</TableCell>
-                    <TableCell className="text-center">{player.lose}</TableCell>
-                    <TableCell className="text-center font-bold">
-                      {player.point}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </FieldGroup>
-      </FieldSet>
-    </FieldGroup>
+    <AppContent>
+      <FieldLabel asChild>
+        <Link href="/match" className="hover:underline">
+          Lihat Pertandingan
+        </Link>
+      </FieldLabel>
+
+      <div className="overflow-hidden rounded-sm border">
+        <Table>
+          <TableHeader className="bg-muted/50">
+            <TableRow>
+              <TableHead>Pemain</TableHead>
+              <TableHead className="text-center">Main</TableHead>
+              <TableHead className="text-center">Menang</TableHead>
+              <TableHead className="text-center">Kalah</TableHead>
+              <TableHead className="text-center font-bold">Poin</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {leaderboards.map((player, playerIdx) => (
+              <TableRow
+                key={playerIdx}
+                className={playerIdx % 2 === 1 ? 'bg-muted/50' : ''}
+              >
+                <TableCell>{player.name}</TableCell>
+                <TableCell className="text-center">{player.play}</TableCell>
+                <TableCell className="text-center">{player.win}</TableCell>
+                <TableCell className="text-center">{player.lose}</TableCell>
+                <TableCell className="text-center font-bold">
+                  {player.point}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </AppContent>
   )
 }

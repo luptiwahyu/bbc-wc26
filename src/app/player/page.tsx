@@ -11,7 +11,6 @@ import {
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldLegend,
   FieldSet,
 } from '@/shared/components/ui/field'
 import {
@@ -21,15 +20,42 @@ import {
   ItemMedia,
   ItemTitle,
 } from '@/shared/components/ui/item'
-import { PlusIcon } from 'lucide-react'
+import { SportShoeIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export default function Player() {
-  const [players] = useState<string[]>(['Askur', 'Caki', 'Dimas'])
-  const router = useRouter()
+interface Player {
+  id: string
+  name: string
+  avatar_url: string
+}
 
-  const selectPlayer = (): void => {}
+const dataPlayers: Player[] = [
+  {
+    id: '1',
+    name: 'Askur',
+    avatar_url: 'https://github.com/evilrabbit.png',
+  },
+  {
+    id: '2',
+    name: 'Caki',
+    avatar_url: 'https://github.com/evilrabbit.png',
+  },
+  {
+    id: '3',
+    name: 'Dimas',
+    avatar_url: 'https://github.com/evilrabbit.png',
+  },
+]
+
+export default function Player() {
+  const router = useRouter()
+  const [players] = useState<Player[]>(dataPlayers)
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
+
+  const selectPlayer = (player: Player): void => {
+    setSelectedPlayer(player)
+  }
 
   const next = (): void => {
     router.push('/match')
@@ -38,8 +64,7 @@ export default function Player() {
   return (
     <FieldGroup>
       <FieldSet>
-        <FieldLegend>Halo, Wahyu!</FieldLegend>
-        <FieldDescription>Bangbayang World Cup 26</FieldDescription>
+        <FieldDescription>Bangbayang FWC 26</FieldDescription>
         <FieldGroup>
           <Field>
             <FieldLabel>Pilih Pemain</FieldLabel>
@@ -48,26 +73,21 @@ export default function Player() {
                 variant="outline"
                 key={playerIdx}
                 className="cursor-pointer"
-                onClick={selectPlayer}
+                onClick={() => selectPlayer(player)}
               >
                 <ItemMedia>
                   <Avatar className="size-6">
-                    <AvatarImage src="https://github.com/evilrabbit.png" />
-                    <AvatarFallback>ER</AvatarFallback>
+                    <AvatarImage src={player.avatar_url} />
+                    <AvatarFallback>{player.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </ItemMedia>
                 <ItemContent>
-                  <ItemTitle>{player}</ItemTitle>
+                  <ItemTitle>{player.name}</ItemTitle>
                 </ItemContent>
                 <ItemActions>
-                  <Button
-                    size="icon-sm"
-                    variant="outline"
-                    className="rounded-full"
-                    aria-label="Invite"
-                  >
-                    <PlusIcon />
-                  </Button>
+                  {selectedPlayer?.id === player.id && (
+                    <SportShoeIcon size={20} className="text-mexico" />
+                  )}
                 </ItemActions>
               </Item>
             ))}
