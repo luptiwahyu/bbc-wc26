@@ -4,8 +4,6 @@ import { appStorage } from '@/shared/lib/utils'
 import { Player } from '@/features/player/models/player.types'
 
 const AppHeader: FC = () => {
-  // const player = appStorage.get<Player>('player')
-
   const [player, setPlayer] = useState<Player | null>(null)
 
   useEffect(() => {
