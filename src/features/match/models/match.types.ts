@@ -12,7 +12,7 @@ export type Country = CountriesTable['Row']
 
 export type PredictionRow = PredictionsTable['Row']
 
-export type PredictionInsert = PredictionsTable['Insert']
+export type PredictionUpsert = PredictionsTable['Insert']
 
 export interface Match extends MatchRow {
   home_team: Partial<Country>

@@ -1,31 +1,62 @@
-import type { Match } from '@/features/match/models/match.types'
+import type {
+  Match,
+  PredictionUpsert,
+} from '@/features/match/models/match.types'
 import { FieldLabel } from '@/shared/components/ui/field'
 import { Item } from '@/shared/components/ui/item'
 import { CrownIcon } from 'lucide-react'
 import Image from 'next/image'
 import { FC, useState } from 'react'
+import { useUpsertPrediction } from '../hooks'
+import { Player } from '@/features/player/models/player.types'
+import { toast } from 'sonner'
 
 interface Props {
   data: Match[]
+  player: Player
 }
 
-const Prediction: FC<Props> = ({ data }) => {
+interface SelectWinnerProps {
+  matchId: string
+  predictionId: string
+  newPredictedWinner: string
+  oldPredictedWinner: string
+}
+
+const Prediction: FC<Props> = ({ data, player }) => {
   const [matches, setMatches] = useState<Match[]>(data)
 
-  const selectWinner = (id: string, countryCode: string): void => {
-    setMatches((prev) =>
-      prev.map((match) =>
-        match.id === id
-          ? {
-              ...match,
-              prediction: {
-                ...match.prediction,
-                predicted_winner: countryCode,
-              },
-            }
-          : match
+  const savePrediction = useUpsertPrediction()
+
+  const selectWinner = (data: SelectWinnerProps): void => {
+    if (data.newPredictedWinner !== data.oldPredictedWinner) {
+      setMatches((prev) =>
+        prev.map((match) =>
+          match.id === data.matchId
+            ? {
+                ...match,
+                prediction: {
+                  ...match.prediction,
+                  predicted_winner: data.newPredictedWinner,
+                },
+              }
+            : match
+        )
       )
-    )
+
+      const payload: PredictionUpsert = {
+        id: data.predictionId,
+        match_id: data.matchId,
+        player_id: player.id,
+        predicted_winner: data.newPredictedWinner,
+      }
+
+      savePrediction.mutate(payload, {
+        onError: () => {
+          toast.error('Upps ada error!')
+        },
+      })
+    }
   }
 
   return (
@@ -39,7 +70,14 @@ const Prediction: FC<Props> = ({ data }) => {
           <div className="flex space-x-4">
             <div
               className="flex flex-col w-[50px] md:w-full items-center space-y-2 cursor-pointer"
-              onClick={() => selectWinner(match.id, match.home_team.code!)}
+              onClick={() =>
+                selectWinner({
+                  matchId: match.id,
+                  predictionId: match.prediction.id!,
+                  newPredictedWinner: match.home_team.code!,
+                  oldPredictedWinner: match.prediction.predicted_winner!,
+                })
+              }
             >
               <CrownIcon
                 size={22}
@@ -64,7 +102,14 @@ const Prediction: FC<Props> = ({ data }) => {
             <div className="flex items-center justify-center">VS</div>
             <div
               className="flex flex-col w-[50px] md:w-full items-center space-y-2 cursor-pointer"
-              onClick={() => selectWinner(match.id, match.away_team.code!)}
+              onClick={() =>
+                selectWinner({
+                  matchId: match.id,
+                  predictionId: match.prediction.id!,
+                  newPredictedWinner: match.away_team.code!,
+                  oldPredictedWinner: match.prediction.predicted_winner!,
+                })
+              }
             >
               <CrownIcon
                 size={22}

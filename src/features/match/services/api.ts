@@ -1,5 +1,5 @@
 import { supabase } from '@/shared/lib/supabase'
-import { Match } from '../models/match.types'
+import { Match, PredictionUpsert } from '../models/match.types'
 
 export const getMatches = async (playerId: string): Promise<Match[]> => {
   const { data, error } = await supabase
@@ -18,4 +18,23 @@ export const getMatches = async (playerId: string): Promise<Match[]> => {
       prediction: match.predictions?.[0] ?? null,
     }))
     .map(({ predictions, ...match }) => match)
+}
+
+export const upsertPrediction = async (
+  prediction: PredictionUpsert
+): Promise<void> => {
+  const { error } = await supabase.from('wc_predictions').upsert(
+    {
+      id: prediction.id,
+      player_id: prediction.player_id,
+      match_id: prediction.match_id,
+      predicted_winner: prediction.predicted_winner,
+    },
+    {
+      onConflict: 'id',
+      ignoreDuplicates: false,
+    }
+  )
+
+  if (error) throw new Error(error.message)
 }
