@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Roboto_Slab, Noto_Sans } from 'next/font/google'
 import '@/shared/styles/globals.css'
 import { cn } from '@/shared/lib/utils'
+import AppProvider from '@/shared/components/ui/app-provider'
 
 const notoSansHeading = Noto_Sans({
   subsets: ['latin'],
@@ -46,7 +47,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
           <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between pt-8 pb-32 px-8 md:px-16 bg-white dark:bg-black sm:items-start">
-            {children}
+            <AppProvider>{children}</AppProvider>
           </main>
         </div>
       </body>

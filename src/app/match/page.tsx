@@ -3,7 +3,7 @@
 import AppContent from '@/shared/components/ui/app-content'
 import { FieldLabel } from '@/shared/components/ui/field'
 import { Item } from '@/shared/components/ui/item'
-import { CrownIcon } from 'lucide-react'
+import { ArrowUpRightIcon, CrownIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -99,7 +99,10 @@ export default function Match() {
     <AppContent>
       <FieldLabel>
         <Link href="/leaderboard" className="hover:underline">
-          Lihat Klasemen
+          <div className="flex space-x-1">
+            <span>Lihat Klasemen</span>
+            <ArrowUpRightIcon size={14} />
+          </div>
         </Link>
       </FieldLabel>
 

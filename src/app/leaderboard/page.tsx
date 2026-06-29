@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/components/ui/table'
+import { SwordsIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -52,7 +53,10 @@ export default function Leaderboard() {
     <AppContent>
       <FieldLabel asChild>
         <Link href="/match" className="hover:underline">
-          Lihat Pertandingan
+          <div className="flex space-x-1">
+            <span>Lihat Pertandingan</span>
+            <SwordsIcon size={14} />
+          </div>
         </Link>
       </FieldLabel>
 
