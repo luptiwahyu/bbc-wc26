@@ -10,7 +10,7 @@ import { Separator } from '@/shared/components/ui/separator'
 import { appStorage } from '@/shared/lib/utils'
 import { LogOutIcon, TrophyIcon } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function MatchPage() {
   const router = useRouter()
@@ -20,6 +20,9 @@ export default function MatchPage() {
     isPending,
     isSuccess,
   } = useMatches(player?.id as string)
+
+  const params = useSearchParams()
+  const logoutVisible: boolean = params.get('logout') === 'true'
 
   const logout = (): void => {
     appStorage.clearByPrefix()
@@ -37,13 +40,17 @@ export default function MatchPage() {
             <TrophyIcon size={14} />
           </div>
         </Link>
-        <Separator orientation="vertical" />
-        <div className="cursor-pointer hover:underline" onClick={logout}>
-          <div className="flex space-x-1">
-            <span>Logout</span>
-            <LogOutIcon size={14} />
-          </div>
-        </div>
+        {logoutVisible && (
+          <>
+            <Separator orientation="vertical" />
+            <div className="cursor-pointer hover:underline" onClick={logout}>
+              <div className="flex space-x-1">
+                <span>Logout</span>
+                <LogOutIcon size={14} />
+              </div>
+            </div>
+          </>
+        )}
       </FieldLabel>
 
       {isPending && <Label>Loading...</Label>}

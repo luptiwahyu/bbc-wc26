@@ -3,6 +3,7 @@
 import { useLeaderboard } from '@/features/leaderboard/hooks'
 import AppContent from '@/shared/components/ui/app-content'
 import { FieldLabel } from '@/shared/components/ui/field'
+import { Separator } from '@/shared/components/ui/separator'
 import {
   Table,
   TableBody,
@@ -11,21 +12,45 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/components/ui/table'
-import { SwordsIcon } from 'lucide-react'
+import { appStorage } from '@/shared/lib/utils'
+import { LogOutIcon, SwordsIcon } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function Leaderboard() {
   const { data: leaderboards, isPending, isSuccess } = useLeaderboard()
 
+  const router = useRouter()
+  const params = useSearchParams()
+  const logoutVisible: boolean = params.get('logout') === 'true'
+
+  const logout = (): void => {
+    appStorage.clearByPrefix()
+    setTimeout(() => {
+      router.push('/')
+    }, 300)
+  }
+
   return (
     <AppContent>
-      <FieldLabel asChild>
+      <FieldLabel>
         <Link href="/match" className="hover:underline">
           <div className="flex space-x-1">
             <span>Lihat Pertandingan</span>
             <SwordsIcon size={14} />
           </div>
         </Link>
+        {logoutVisible && (
+          <>
+            <Separator orientation="vertical" />
+            <div className="cursor-pointer hover:underline" onClick={logout}>
+              <div className="flex space-x-1">
+                <span>Logout</span>
+                <LogOutIcon size={14} />
+              </div>
+            </div>
+          </>
+        )}
       </FieldLabel>
 
       <div className="overflow-hidden rounded-sm border">
