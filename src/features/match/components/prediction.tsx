@@ -10,6 +10,7 @@ import { FC, useState } from 'react'
 import { useUpsertPrediction } from '../hooks'
 import { Player } from '@/features/player/models/player.types'
 import { toast } from 'sonner'
+import { Label } from '@/shared/components/ui/label'
 
 interface Props {
   data: Match[]
@@ -18,9 +19,9 @@ interface Props {
 
 interface SelectWinnerProps {
   matchId: string
-  predictionId: string
-  newPredictedWinner: string
-  oldPredictedWinner: string
+  predictionId: string | undefined
+  newPredictedWinner: string | undefined
+  oldPredictedWinner: string | undefined
 }
 
 const Prediction: FC<Props> = ({ data, player }) => {
@@ -45,7 +46,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
       )
 
       const payload: PredictionUpsert = {
-        id: data.predictionId,
+        id: data.predictionId!,
         match_id: data.matchId,
         player_id: player.id,
         predicted_winner: data.newPredictedWinner,
@@ -61,6 +62,10 @@ const Prediction: FC<Props> = ({ data, player }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {!matches.length && (
+        <Label className="text-muted-foreground">Tidak ada pertandingan</Label>
+      )}
+
       {matches.map((match) => (
         <Item
           key={match.id}
@@ -73,9 +78,9 @@ const Prediction: FC<Props> = ({ data, player }) => {
               onClick={() =>
                 selectWinner({
                   matchId: match.id,
-                  predictionId: match.prediction.id!,
+                  predictionId: match.prediction?.id,
                   newPredictedWinner: match.home_team.code!,
-                  oldPredictedWinner: match.prediction.predicted_winner!,
+                  oldPredictedWinner: match.prediction?.predicted_winner,
                 })
               }
             >
@@ -105,9 +110,9 @@ const Prediction: FC<Props> = ({ data, player }) => {
               onClick={() =>
                 selectWinner({
                   matchId: match.id,
-                  predictionId: match.prediction.id!,
+                  predictionId: match.prediction?.id,
                   newPredictedWinner: match.away_team.code!,
-                  oldPredictedWinner: match.prediction.predicted_winner!,
+                  oldPredictedWinner: match.prediction?.predicted_winner,
                 })
               }
             >
@@ -127,7 +132,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
                 loading="eager"
                 className="rounded-tr-2xl rounded-bl-2xl w-full h-auto border"
               />
-              <FieldLabel className="text-wrap">
+              <FieldLabel className="text-wrap truncate">
                 {match.away_team.name}
               </FieldLabel>
             </div>

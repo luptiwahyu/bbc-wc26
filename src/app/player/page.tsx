@@ -87,7 +87,7 @@ export default function PlayerPage() {
                   disabled={!selectedPlayer}
                   onClick={submit}
                 >
-                  SIMPAN
+                  Masuk
                 </Button>
               </>
             )}

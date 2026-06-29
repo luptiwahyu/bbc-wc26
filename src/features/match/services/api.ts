@@ -9,6 +9,9 @@ export const getMatches = async (playerId: string): Promise<Match[]> => {
       predictions:wc_predictions!left (id, player_id, predicted_winner)`
     )
     .eq('wc_predictions.player_id', playerId)
+    .eq('status', 'live')
+    .gte('date', new Date().toISOString())
+    .order('date', { ascending: true })
 
   if (error) throw new Error(error.message)
 
