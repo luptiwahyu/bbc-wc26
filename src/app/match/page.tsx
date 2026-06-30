@@ -4,13 +4,12 @@ import Prediction from '@/features/match/components/prediction'
 import { useMatches } from '@/features/match/hooks'
 import { Player } from '@/features/player/models/player.types'
 import AppContent from '@/shared/components/ui/app-content'
+import AppLogout from '@/shared/components/ui/app-logout'
 import { FieldLabel } from '@/shared/components/ui/field'
 import { Label } from '@/shared/components/ui/label'
-import { Separator } from '@/shared/components/ui/separator'
 import { appStorage } from '@/shared/lib/utils'
-import { LogOutIcon, TrophyIcon } from 'lucide-react'
+import { TrophyIcon } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 
 export default function MatchPage() {
@@ -31,7 +30,7 @@ export default function MatchPage() {
           </div>
         </Link>
         <Suspense fallback={<Label>Loading...</Label>}>
-          <Logout />
+          <AppLogout />
         </Suspense>
       </FieldLabel>
 
@@ -39,31 +38,4 @@ export default function MatchPage() {
       {isSuccess && <Prediction data={matches} player={player!} />}
     </AppContent>
   )
-}
-
-function Logout() {
-  const router = useRouter()
-  const params = useSearchParams()
-  const logoutVisible: boolean = params.get('logout') === 'true'
-
-  const logout = (): void => {
-    appStorage.clearByPrefix()
-    setTimeout(() => {
-      router.push('/')
-    }, 300)
-  }
-
-  if (logoutVisible) {
-    return (
-      <>
-        <Separator orientation="vertical" />
-        <div className="cursor-pointer hover:underline" onClick={logout}>
-          <div className="flex space-x-1">
-            <span>Logout</span>
-            <LogOutIcon size={14} />
-          </div>
-        </div>
-      </>
-    )
-  }
 }

@@ -2,7 +2,9 @@
 
 import { useLeaderboard } from '@/features/leaderboard/hooks'
 import AppContent from '@/shared/components/ui/app-content'
+import AppLogout from '@/shared/components/ui/app-logout'
 import { FieldLabel } from '@/shared/components/ui/field'
+import { Label } from '@/shared/components/ui/label'
 import {
   Table,
   TableBody,
@@ -13,6 +15,7 @@ import {
 } from '@/shared/components/ui/table'
 import { SwordsIcon } from 'lucide-react'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 export default function Leaderboard() {
   const { data: leaderboards, isPending, isSuccess } = useLeaderboard()
@@ -26,6 +29,9 @@ export default function Leaderboard() {
             <SwordsIcon size={14} />
           </div>
         </Link>
+        <Suspense fallback={<Label>Loading...</Label>}>
+          <AppLogout />
+        </Suspense>
       </FieldLabel>
 
       <div className="overflow-hidden rounded-sm border">
