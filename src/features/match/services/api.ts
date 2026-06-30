@@ -28,13 +28,12 @@ export const upsertPrediction = async (
 ): Promise<void> => {
   const { error } = await supabase.from('wc_predictions').upsert(
     {
-      id: prediction.id,
       player_id: prediction.player_id,
       match_id: prediction.match_id,
       predicted_winner: prediction.predicted_winner,
     },
     {
-      onConflict: 'id',
+      onConflict: 'player_id,match_id',
       ignoreDuplicates: false,
     }
   )

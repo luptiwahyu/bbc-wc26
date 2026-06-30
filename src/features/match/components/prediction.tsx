@@ -88,7 +88,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
                 size={22}
                 className={
                   match.prediction?.predicted_winner === match.home_team.code
-                    ? 'fill-yellow-400 stroke-1 stroke-yellow-600'
+                    ? 'fill-yellow-400 stroke-1 stroke-yellow-600 animate-tada-bounce'
                     : 'fill-gray-300 stroke-1 stroke-gray-300'
                 }
               />
@@ -120,7 +120,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
                 size={22}
                 className={
                   match.prediction?.predicted_winner === match.away_team.code
-                    ? 'fill-yellow-400 stroke-1 stroke-yellow-600'
+                    ? 'fill-yellow-400 stroke-1 stroke-yellow-600 animate-tada-bounce'
                     : 'fill-gray-300 stroke-1 stroke-gray-300'
                 }
               />
