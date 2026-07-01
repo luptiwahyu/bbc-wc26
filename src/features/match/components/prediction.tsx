@@ -61,7 +61,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {!matches.length && (
         <Label className="text-muted-foreground">Tidak ada pertandingan</Label>
       )}
@@ -70,11 +70,11 @@ const Prediction: FC<Props> = ({ data, player }) => {
         <Item
           key={match.id}
           variant="outline"
-          className="w-fit rounded-tr-4xl rounded-bl-4xl px-6"
+          className="rounded-tr-4xl rounded-bl-4xl px-6"
         >
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 w-full">
             <div
-              className="flex flex-col w-[50px] md:w-full items-center space-y-2 cursor-pointer"
+              className="flex-1 flex flex-col items-center space-y-2 cursor-pointer"
               onClick={() =>
                 selectWinner({
                   matchId: match.id,
@@ -92,21 +92,23 @@ const Prediction: FC<Props> = ({ data, player }) => {
                     : 'fill-gray-300 stroke-1 stroke-gray-300'
                 }
               />
-              <Image
-                src={`https://api.fifa.com/api/v3/picture/flags-sq-4/${match.home_team.code}`}
-                width={200}
-                height={200}
-                alt="flag"
-                loading="eager"
-                className="rounded-tr-2xl rounded-bl-2xl w-full h-auto border"
-              />
-              <FieldLabel className="text-wrap">
+              <div className="w-[50px]">
+                <Image
+                  src={`https://api.fifa.com/api/v3/picture/flags-sq-4/${match.home_team.code}`}
+                  width={200}
+                  height={200}
+                  alt="flag"
+                  loading="eager"
+                  className="rounded-tr-xl rounded-bl-xl w-full h-auto border"
+                />
+              </div>
+              <FieldLabel className="text-wrap truncate text-center">
                 {match.home_team.name}
               </FieldLabel>
             </div>
-            <div className="flex items-center justify-center">VS</div>
+            <div className="w-10 flex items-center justify-center">VS</div>
             <div
-              className="flex flex-col w-[50px] md:w-full items-center space-y-2 cursor-pointer"
+              className="flex-1 flex flex-col items-center space-y-2 cursor-pointer"
               onClick={() =>
                 selectWinner({
                   matchId: match.id,
@@ -124,15 +126,17 @@ const Prediction: FC<Props> = ({ data, player }) => {
                     : 'fill-gray-300 stroke-1 stroke-gray-300'
                 }
               />
-              <Image
-                src={`https://api.fifa.com/api/v3/picture/flags-sq-4/${match.away_team.code}`}
-                width={200}
-                height={200}
-                alt="flag"
-                loading="eager"
-                className="rounded-tr-2xl rounded-bl-2xl w-full h-auto border"
-              />
-              <FieldLabel className="text-wrap truncate">
+              <div className="w-[50px]">
+                <Image
+                  src={`https://api.fifa.com/api/v3/picture/flags-sq-4/${match.away_team.code}`}
+                  width={200}
+                  height={200}
+                  alt="flag"
+                  loading="eager"
+                  className="rounded-tr-xl rounded-bl-xl w-full h-auto border"
+                />
+              </div>
+              <FieldLabel className="text-wrap truncate text-center">
                 {match.away_team.name}
               </FieldLabel>
             </div>
