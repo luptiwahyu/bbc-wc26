@@ -11,6 +11,11 @@ import { useUpsertPrediction } from '../hooks'
 import { Player } from '@/features/player/models/player.types'
 import { toast } from 'sonner'
 import { Label } from '@/shared/components/ui/label'
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@/shared/components/ui/input-group'
 
 interface Props {
   data: Match[]
@@ -70,9 +75,9 @@ const Prediction: FC<Props> = ({ data, player }) => {
         <Item
           key={match.id}
           variant="outline"
-          className="rounded-tr-4xl rounded-bl-4xl px-6"
+          className="rounded-tr-4xl rounded-bl-4xl p-0 bg-white overflow-hidden"
         >
-          <div className="flex space-x-4 w-full">
+          <div className="flex space-x-4 w-full py-2.5 px-8">
             <div
               className="flex-1 flex flex-col items-center space-y-2 cursor-pointer"
               onClick={() =>
@@ -140,6 +145,21 @@ const Prediction: FC<Props> = ({ data, player }) => {
                 {match.away_team.name}
               </FieldLabel>
             </div>
+          </div>
+
+          <div className="space-y-0 mt-auto w-full">
+            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
+              <InputGroupAddon className="pl-10 pr-2">
+                Total Gol
+              </InputGroupAddon>
+              <InputGroupInput
+                type="text"
+                placeholder="0"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                className="pr-10 text-base text-right placeholder:text-xs text-muted-foreground"
+              />
+            </InputGroup>
           </div>
         </Item>
       ))}
