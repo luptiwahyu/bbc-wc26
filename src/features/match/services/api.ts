@@ -1,5 +1,10 @@
 import { supabase } from '@/shared/lib/supabase'
-import { Match, PredictionUpsert } from '../models/match.types'
+import type {
+  Match,
+  MatchDetail,
+  MatchUpdate,
+  PredictionUpsert,
+} from '../models/match.types'
 
 export const getMatches = async (playerId: string): Promise<Match[]> => {
   const { data, error } = await supabase
@@ -37,6 +42,22 @@ export const upsertPrediction = async (
       ignoreDuplicates: false,
     }
   )
+
+  if (error) throw new Error(error.message)
+}
+
+export const getAllMatches = async (): Promise<MatchDetail[]> => {
+  const { data, error } = await supabase.rpc('wc_get_all_matches')
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export const updateMatch = async (match: MatchUpdate): Promise<void> => {
+  const { error } = await supabase
+    .from('wc_matches')
+    .update(match)
+    .eq('id', match.id!)
+    .select()
 
   if (error) throw new Error(error.message)
 }
