@@ -492,7 +492,21 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      wc_get_all_matches: {
+        Args: never
+        Returns: {
+          away_team: Database["public"]["Tables"]["wc_countries"]["Row"]
+          away_team_id: string
+          created_at: string
+          date: string
+          home_team: Database["public"]["Tables"]["wc_countries"]["Row"]
+          home_team_id: string
+          id: string
+          result_total_goals: number
+          result_winner: string
+          status: Database["public"]["Enums"]["wc_match_status"]
+        }[]
+      }
     }
     Enums: {
       role: "owner" | "admin" | "teacher" | "staff"
