@@ -18,7 +18,7 @@ interface Props {
   data: MatchForm[]
 }
 
-const MatchManagement: FC<Props> = ({ data }) => {
+const MatchUpdateManagement: FC<Props> = ({ data }) => {
   const [matches, setMatches] = useState<MatchForm[]>(data)
   const updateMatch = useUpdateMatch()
 
@@ -184,4 +184,4 @@ const MatchManagement: FC<Props> = ({ data }) => {
   )
 }
 
-export default MatchManagement
+export default MatchUpdateManagement

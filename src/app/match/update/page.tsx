@@ -1,18 +1,17 @@
 'use client'
 
-import MatchManagement from '@/features/match/components/management'
+import MatchUpdateManagement from '@/features/match/components/update'
 import { useAllMatches } from '@/features/match/hooks'
 import { MatchForm } from '@/features/match/models/match.types'
-import { Player } from '@/features/player/models/player.types'
 import AppContent from '@/shared/components/ui/app-content'
 import { FieldLabel } from '@/shared/components/ui/field'
 import { Label } from '@/shared/components/ui/label'
-import { appStorage } from '@/shared/lib/utils'
-import { notFound } from 'next/navigation'
+import { Separator } from '@/shared/components/ui/separator'
+import { ArrowLeftIcon } from 'lucide-react'
+import Link from 'next/link'
 import { useMemo } from 'react'
 
-export default function MatchManagementPage() {
-  const player = appStorage.get<Player>('player')
+export default function MatchUpdatePage() {
   const { data, isPending, isSuccess } = useAllMatches()
 
   const matches = useMemo<MatchForm[]>((): MatchForm[] => {
@@ -31,13 +30,19 @@ export default function MatchManagementPage() {
     )
   }, [data])
 
-  if (!player || player.name !== 'Wahyu') return notFound()
-
   return (
     <AppContent>
-      <FieldLabel>Manajemen Pertandingan</FieldLabel>
+      <FieldLabel>
+        <Link href="/match/manage" className="hover:underline">
+          <div className="flex space-x-1">
+            <ArrowLeftIcon size={14} />
+          </div>
+        </Link>
+        <Separator orientation="vertical" />
+        <FieldLabel>Update Pertandingan</FieldLabel>
+      </FieldLabel>
       {isPending && <Label>Loading...</Label>}
-      {isSuccess && <MatchManagement data={matches} />}
+      {isSuccess && <MatchUpdateManagement data={matches} />}
     </AppContent>
   )
 }

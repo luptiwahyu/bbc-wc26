@@ -63,7 +63,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {!matches.length && (
-        <Label className="text-muted-foreground">Tidak ada pertandingan</Label>
+        <Label className="text-muted-foreground">Belum ada pertandingan</Label>
       )}
 
       {matches.map((match) => (
