@@ -1,7 +1,9 @@
 import { supabase } from '@/shared/lib/supabase'
 import type {
+  Country,
   Match,
   MatchDetail,
+  MatchInsert,
   MatchUpdate,
   PredictionUpsert,
 } from '../models/match.types'
@@ -59,5 +61,20 @@ export const updateMatch = async (match: MatchUpdate): Promise<void> => {
     .eq('id', match.id!)
     .select()
 
+  if (error) throw new Error(error.message)
+}
+
+export const getCountries = async (): Promise<Country[]> => {
+  const { data, error } = await supabase
+    .from('wc_countries')
+    .select()
+    .order('name', { ascending: true })
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export const insertMatch = async (match: MatchInsert): Promise<void> => {
+  const { error } = await supabase.from('wc_matches').insert(match).select()
   if (error) throw new Error(error.message)
 }

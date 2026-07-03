@@ -10,6 +10,8 @@ export type MatchStatus = Database['public']['Enums']['wc_match_status']
 
 export type MatchRow = MatchesTable['Row']
 
+export type MatchInsert = MatchesTable['Insert']
+
 export type MatchUpdate = MatchesTable['Update']
 
 export type Country = CountriesTable['Row']
@@ -33,4 +35,12 @@ export interface MatchForm extends MatchDetail {
   form_status: MatchStatus
   form_result_winner?: string | null
   form_result_total_goals?: string | null
+}
+
+export interface MatchCreateForm {
+  home_team_id: string
+  away_team_id: string
+  date: string
+  time: string
+  status: MatchStatus
 }
