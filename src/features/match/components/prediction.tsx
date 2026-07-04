@@ -188,7 +188,10 @@ const Prediction: FC<Props> = ({ data, player }) => {
 
           <div className="space-y-0 mt-auto w-full">
             <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
-              <InputGroupAddon className="pl-10 pr-2">
+              <InputGroupAddon
+                className="pl-10 pr-2"
+                onClick={(e) => e.stopPropagation()}
+              >
                 Jumlah Gol
                 <Popover>
                   <PopoverTrigger asChild>
