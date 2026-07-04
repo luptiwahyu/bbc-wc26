@@ -24,3 +24,12 @@ export const capitalize = (str: string): string => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
 }
+
+export const isDataChanged = (
+  initialData: object,
+  newData: object
+): boolean => {
+  const initialDataString: string = JSON.stringify(initialData)
+  const newDataString: string = JSON.stringify(newData)
+  return initialDataString !== newDataString
+}
