@@ -8,6 +8,14 @@ import {
   CollapsibleTrigger,
 } from '@/shared/components/ui/collapsible'
 import { ChevronRightIcon } from 'lucide-react'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/shared/components/ui/table'
 
 const Predictions: FC = () => {
   const { data: players, isPending, isSuccess } = usePredictions()
@@ -44,21 +52,37 @@ const Predictions: FC = () => {
                         {prediction.match.away_team?.name}
                       </Button>
                     </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <div className="space-y-2 py-2 pl-6">
-                        {!!prediction.predicted_winner_name && (
-                          <div className="grid grid-cols-2 gap-2">
-                            <Label>Prediksi Pemenang</Label>
-                            <Label>{prediction.predicted_winner_name}</Label>
-                          </div>
-                        )}
-                        {!!prediction.predicted_total_goals && (
-                          <div className="grid grid-cols-2 gap-2">
-                            <Label>Prediksi Jumlah Gol</Label>
-                            <Label>{prediction.predicted_total_goals}</Label>
-                          </div>
-                        )}
-                      </div>
+                    <CollapsibleContent className="pl-[25px]">
+                      <Table className="my-1">
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="h-6 pl-0">Prediksi</TableHead>
+                            <TableHead className="h-6 pl-0">Jawaban</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {!!prediction.predicted_winner_name && (
+                            <TableRow>
+                              <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                Pemenang
+                              </TableCell>
+                              <TableCell className="py-1 pl-0">
+                                {prediction.predicted_winner_name}
+                              </TableCell>
+                            </TableRow>
+                          )}
+                          {!!prediction.predicted_total_goals && (
+                            <TableRow>
+                              <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                Jumlah Gol
+                              </TableCell>
+                              <TableCell className="py-1 pl-0">
+                                {prediction.predicted_total_goals}
+                              </TableCell>
+                            </TableRow>
+                          )}
+                        </TableBody>
+                      </Table>
                     </CollapsibleContent>
                   </Collapsible>
                 ))}
