@@ -54,7 +54,7 @@ const Predictions: FC = () => {
                         )}
                         {!!prediction.predicted_total_goals && (
                           <div className="grid grid-cols-2 gap-2">
-                            <Label>Prediksi Total Gol</Label>
+                            <Label>Prediksi Jumlah Gol</Label>
                             <Label>{prediction.predicted_total_goals}</Label>
                           </div>
                         )}
