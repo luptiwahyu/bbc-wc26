@@ -71,7 +71,7 @@ const Predictions: FC = () => {
                               </TableCell>
                             </TableRow>
                           )}
-                          {!!prediction.predicted_total_goals && (
+                          {prediction.predicted_total_goals !== null && (
                             <TableRow>
                               <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
                                 Jumlah Gol
