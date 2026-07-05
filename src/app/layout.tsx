@@ -47,7 +47,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-          <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between pt-6 pb-32 px-14 md:px-16 bg-white dark:bg-black sm:items-start">
+          <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between pt-6 pb-32 px-12 md:px-16 bg-white dark:bg-black sm:items-start">
             <AppProvider>{children}</AppProvider>
             <Toaster position="top-center" />
           </main>

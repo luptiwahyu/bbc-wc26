@@ -7,8 +7,9 @@ import AppContent from '@/shared/components/ui/app-content'
 import AppLogout from '@/shared/components/ui/app-logout'
 import { FieldLabel } from '@/shared/components/ui/field'
 import { Label } from '@/shared/components/ui/label'
+import { Separator } from '@/shared/components/ui/separator'
 import { appStorage } from '@/shared/lib/utils'
-import { TrophyIcon } from 'lucide-react'
+import { SparklesIcon, TrophyIcon } from 'lucide-react'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
@@ -27,6 +28,13 @@ export default function MatchPage() {
           <div className="flex space-x-1">
             <span>Lihat Klasemen</span>
             <TrophyIcon size={14} />
+          </div>
+        </Link>
+        <Separator orientation="vertical" />
+        <Link href="/predictions" className="hover:underline">
+          <div className="flex space-x-1">
+            <span>Lihat Prediksi</span>
+            <SparklesIcon size={14} />
           </div>
         </Link>
         <Suspense fallback={<Label>Loading...</Label>}>
