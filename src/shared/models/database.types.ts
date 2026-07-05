@@ -507,6 +507,14 @@ export type Database = {
           status: Database["public"]["Enums"]["wc_match_status"]
         }[]
       }
+      wc_get_predictions_grouped_by_player: {
+        Args: never
+        Returns: {
+          player_id: string
+          player_name: string
+          predictions: Database["public"]["CompositeTypes"]["wc_prediction_with_match"][]
+        }[]
+      }
     }
     Enums: {
       role: "owner" | "admin" | "teacher" | "staff"
@@ -514,7 +522,22 @@ export type Database = {
       wc_match_status: "upcoming" | "live" | "finished"
     }
     CompositeTypes: {
-      [_ in never]: never
+      wc_match_detail: {
+        id: string | null
+        date: string | null
+        status: Database["public"]["Enums"]["wc_match_status"] | null
+        result_winner: string | null
+        result_total_goals: number | null
+        home_team: Database["public"]["Tables"]["wc_countries"]["Row"] | null
+        away_team: Database["public"]["Tables"]["wc_countries"]["Row"] | null
+      }
+      wc_prediction_with_match: {
+        prediction_id: string | null
+        predicted_winner: string | null
+        predicted_winner_name: string | null
+        predicted_total_goals: number | null
+        match: Database["public"]["CompositeTypes"]["wc_match_detail"] | null
+      }
     }
   }
 }

@@ -5,9 +5,9 @@ export const getPredictionsGroupedByPlayer = async (): Promise<
   PredictionsByPlayer[]
 > => {
   const { data, error } = await supabase.rpc(
-    'get_wc_predictions_grouped_by_player'
+    'wc_get_predictions_grouped_by_player'
   )
 
   if (error) throw new Error(error.message)
-  return data
+  return data as PredictionsByPlayer[]
 }
