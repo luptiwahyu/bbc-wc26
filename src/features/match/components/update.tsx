@@ -153,7 +153,7 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
                 </NativeSelect>
               </div>
               <div className="grid grid-cols-2 gap-2 items-center">
-                <div>Total Gol</div>
+                <div>Jumlah Gol</div>
                 <Input
                   type="text"
                   placeholder="0"
