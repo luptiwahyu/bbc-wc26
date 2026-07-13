@@ -185,7 +185,26 @@ const Prediction: FC<Props> = ({ data, player }) => {
                 {match.home_team.name}
               </FieldLabel>
             </div>
-            <div className="w-10 flex items-center justify-center">VS</div>
+
+            <div className="flex space-x-2 mt-1.5">
+              <div className="w-8 flex items-center justify-center">
+                <Input
+                  placeholder="-"
+                  className="text-center text-base text-muted-foreground font-bold"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                />
+              </div>
+              <div className="w-8 flex items-center justify-center">
+                <Input
+                  placeholder="-"
+                  className="text-center text-base text-muted-foreground font-bold"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                />
+              </div>
+            </div>
+
             <div
               className="flex-1 flex flex-col items-center space-y-2 cursor-pointer"
               onClick={() =>
