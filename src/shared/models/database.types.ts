@@ -386,6 +386,7 @@ export type Database = {
           id: string
           match_id: string
           player_id: string
+          predicted_first_team_to_score: string | null
           predicted_total_goals: number | null
           predicted_winner: string
           submitted_at: string
@@ -394,6 +395,7 @@ export type Database = {
           id?: string
           match_id: string
           player_id: string
+          predicted_first_team_to_score?: string | null
           predicted_total_goals?: number | null
           predicted_winner?: string
           submitted_at?: string
@@ -402,6 +404,7 @@ export type Database = {
           id?: string
           match_id?: string
           player_id?: string
+          predicted_first_team_to_score?: string | null
           predicted_total_goals?: number | null
           predicted_winner?: string
           submitted_at?: string

@@ -4,7 +4,7 @@ import type {
 } from '@/features/match/models/match.types'
 import { FieldLabel } from '@/shared/components/ui/field'
 import { Item } from '@/shared/components/ui/item'
-import { CircleQuestionMarkIcon, CrownIcon } from 'lucide-react'
+import { CrownIcon } from 'lucide-react'
 import Image from 'next/image'
 import { FC, useState } from 'react'
 import { useUpsertPrediction } from '../hooks'
@@ -17,15 +17,11 @@ import {
   InputGroupInput,
 } from '@/shared/components/ui/input-group'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/shared/components/ui/popover'
-import {
   NativeSelect,
   NativeSelectOptGroup,
   NativeSelectOption,
 } from '@/shared/components/ui/native-select'
+import { FRANCE_PLAYERS } from '@/shared/constants'
 
 interface Props {
   data: Match[]
@@ -107,6 +103,40 @@ const Prediction: FC<Props> = ({ data, player }) => {
         )
       )
     }
+  }
+
+  const handleChangeFirstTeamToScore = (
+    matchId: string,
+    field: string,
+    value: string
+  ): void => {
+    setMatches((prev) =>
+      prev.map((match) =>
+        match.id === matchId
+          ? {
+              ...match,
+              prediction: {
+                ...match.prediction,
+                predicted_first_team_to_score: value,
+              },
+            }
+          : match
+      )
+    )
+
+    setTimeout(() => {
+      const payload: PredictionUpsert = {
+        match_id: matchId,
+        player_id: player.id,
+        predicted_first_team_to_score: value,
+      }
+
+      savePrediction.mutate(payload, {
+        onError: () => {
+          toast.error('Upps ada error!')
+        },
+      })
+    }, 500)
   }
 
   return (
@@ -198,14 +228,6 @@ const Prediction: FC<Props> = ({ data, player }) => {
                 onClick={(e) => e.stopPropagation()}
               >
                 Jumlah Gol
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <CircleQuestionMarkIcon className="ml-1 cursor-pointer" />
-                  </PopoverTrigger>
-                  <PopoverContent align="start" className="w-fit">
-                    Bukan Skor
-                  </PopoverContent>
-                </Popover>
               </InputGroupAddon>
               <InputGroupInput
                 type="text"
@@ -230,21 +252,23 @@ const Prediction: FC<Props> = ({ data, player }) => {
               />
             </InputGroup>
 
-            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
-              <InputGroupAddon
-                className="pl-6 pr-4"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Jumlah Kartu Kuning
-              </InputGroupAddon>
-              <InputGroupInput
-                type="text"
-                placeholder="Isi"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
-              />
-            </InputGroup>
+            {false && (
+              <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
+                <InputGroupAddon
+                  className="pl-6 pr-4"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Jumlah Kartu Kuning
+                </InputGroupAddon>
+                <InputGroupInput
+                  type="text"
+                  placeholder="Isi"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
+                />
+              </InputGroup>
+            )}
 
             <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0 flex">
               <InputGroupAddon
@@ -256,51 +280,76 @@ const Prediction: FC<Props> = ({ data, player }) => {
               <NativeSelect
                 id="scorer"
                 className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
+                value={match.prediction.predicted_first_team_to_score!}
+                onChange={(e) =>
+                  handleChangeFirstTeamToScore(
+                    match.id,
+                    'predicted_first_team_to_score',
+                    e.target.value
+                  )
+                }
               >
                 <NativeSelectOption value="" className="text-right">
                   Pilih
                 </NativeSelectOption>
-                <NativeSelectOption value="FRA" className="text-right">
-                  Prancis
+                <NativeSelectOption value="NONE" className="text-right">
+                  Tidak ada
                 </NativeSelectOption>
-                <NativeSelectOption value="SPA" className="text-right">
-                  Spanyol
+                <NativeSelectOption
+                  value={match.home_team.code}
+                  className="text-right"
+                >
+                  {match.home_team.name}
+                </NativeSelectOption>
+                <NativeSelectOption
+                  value={match.away_team.code}
+                  className="text-right"
+                >
+                  {match.away_team.name}
                 </NativeSelectOption>
               </NativeSelect>
             </InputGroup>
 
-            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0 flex">
-              <InputGroupAddon
-                className="pl-6 pr-4 flex-none"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Gol Pertama (Pemain)
-              </InputGroupAddon>
-              <NativeSelect
-                id="scorer"
-                className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
-              >
-                <NativeSelectOption value="" className="text-right">
-                  Pilih
-                </NativeSelectOption>
-                <NativeSelectOptGroup label={match.home_team.name}>
-                  <NativeSelectOption value="FRA" className="text-right!">
-                    Mbappe
+            {false && (
+              <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0 flex">
+                <InputGroupAddon
+                  className="pl-6 pr-4 flex-none"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Gol Pertama (Pemain)
+                </InputGroupAddon>
+                <NativeSelect
+                  id="scorer"
+                  className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
+                >
+                  <NativeSelectOption value="" className="text-right">
+                    Pilih
                   </NativeSelectOption>
-                  <NativeSelectOption value="SPA" className="text-right!">
-                    Dembele
+                  <NativeSelectOption value="none" className="text-right">
+                    Tidak ada
                   </NativeSelectOption>
-                </NativeSelectOptGroup>
-                <NativeSelectOptGroup label={match.away_team.name}>
-                  <NativeSelectOption value="FRA" className="text-right!">
-                    Cucurela
-                  </NativeSelectOption>
-                  <NativeSelectOption value="SPA" className="text-right!">
-                    Fabregas
-                  </NativeSelectOption>
-                </NativeSelectOptGroup>
-              </NativeSelect>
-            </InputGroup>
+                  <NativeSelectOptGroup label={match.home_team.name}>
+                    {FRANCE_PLAYERS.map((player) => (
+                      <NativeSelectOption
+                        key={player}
+                        value={player}
+                        className="text-right capitalize"
+                      >
+                        {player}
+                      </NativeSelectOption>
+                    ))}
+                  </NativeSelectOptGroup>
+                  <NativeSelectOptGroup label={match.away_team.name}>
+                    <NativeSelectOption value="FRA" className="text-right">
+                      Cucurela
+                    </NativeSelectOption>
+                    <NativeSelectOption value="SPA" className="text-right">
+                      Fabregas
+                    </NativeSelectOption>
+                  </NativeSelectOptGroup>
+                </NativeSelect>
+              </InputGroup>
+            )}
           </div>
         </Item>
       ))}
