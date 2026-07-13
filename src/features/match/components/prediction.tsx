@@ -21,6 +21,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/shared/components/ui/popover'
+import {
+  NativeSelect,
+  NativeSelectOptGroup,
+  NativeSelectOption,
+} from '@/shared/components/ui/native-select'
 
 interface Props {
   data: Match[]
@@ -189,7 +194,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
           <div className="space-y-0 mt-auto w-full">
             <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
               <InputGroupAddon
-                className="pl-10 pr-2"
+                className="pl-6 pr-4"
                 onClick={(e) => e.stopPropagation()}
               >
                 Jumlah Gol
@@ -207,7 +212,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
                 placeholder="Isi"
                 inputMode="numeric"
                 pattern="[0-9]*"
-                className="pr-10 text-base text-right placeholder:text-xs text-muted-foreground"
+                className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
                 value={match.prediction.predicted_total_goals ?? ''}
                 onChange={(e) =>
                   handleChangeToalGoal(
@@ -223,6 +228,78 @@ const Prediction: FC<Props> = ({ data, player }) => {
                   )
                 }
               />
+            </InputGroup>
+
+            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
+              <InputGroupAddon
+                className="pl-6 pr-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Jumlah Kartu Kuning
+              </InputGroupAddon>
+              <InputGroupInput
+                type="text"
+                placeholder="Isi"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
+              />
+            </InputGroup>
+
+            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0 flex">
+              <InputGroupAddon
+                className="pl-6 pr-4 flex-none"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Gol Pertama (Negara)
+              </InputGroupAddon>
+              <NativeSelect
+                id="scorer"
+                className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
+              >
+                <NativeSelectOption value="" className="text-right">
+                  Pilih
+                </NativeSelectOption>
+                <NativeSelectOption value="FRA" className="text-right">
+                  Prancis
+                </NativeSelectOption>
+                <NativeSelectOption value="SPA" className="text-right">
+                  Spanyol
+                </NativeSelectOption>
+              </NativeSelect>
+            </InputGroup>
+
+            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0 flex">
+              <InputGroupAddon
+                className="pl-6 pr-4 flex-none"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Gol Pertama (Pemain)
+              </InputGroupAddon>
+              <NativeSelect
+                id="scorer"
+                className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
+              >
+                <NativeSelectOption value="" className="text-right">
+                  Pilih
+                </NativeSelectOption>
+                <NativeSelectOptGroup label={match.home_team.name}>
+                  <NativeSelectOption value="FRA" className="text-right!">
+                    Mbappe
+                  </NativeSelectOption>
+                  <NativeSelectOption value="SPA" className="text-right!">
+                    Dembele
+                  </NativeSelectOption>
+                </NativeSelectOptGroup>
+                <NativeSelectOptGroup label={match.away_team.name}>
+                  <NativeSelectOption value="FRA" className="text-right!">
+                    Cucurela
+                  </NativeSelectOption>
+                  <NativeSelectOption value="SPA" className="text-right!">
+                    Fabregas
+                  </NativeSelectOption>
+                </NativeSelectOptGroup>
+              </NativeSelect>
             </InputGroup>
           </div>
         </Item>
