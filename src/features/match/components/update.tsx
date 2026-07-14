@@ -47,6 +47,14 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
     )
   }
 
+  const updateScore = (id: string, score: string) => {
+    setMatches((prevMatch) =>
+      prevMatch.map((match) =>
+        match.id === id ? { ...match, form_result_score: score } : match
+      )
+    )
+  }
+
   const updateFirstTeamToScore = (id: string, team: string) => {
     setMatches((prevMatch) =>
       prevMatch.map((match) =>
@@ -73,7 +81,9 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
       status: match.form_status,
       result_winner: match.form_result_winner,
       result_total_goals: Number(match.form_result_total_goals) || null,
+      result_score: match.form_result_score,
       result_first_team_to_score: match.form_result_first_team_to_score,
+      result_first_player_to_score: match.form_result_first_player_to_score,
     }
 
     const updatePromise = new Promise((resolve, reject) => {
@@ -157,6 +167,7 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
                   ))}
                 </NativeSelect>
               </div>
+
               <div className="grid grid-cols-2 gap-2 items-center">
                 <div>Pemenang</div>
                 <NativeSelect
@@ -174,16 +185,29 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
                   </NativeSelectOption>
                 </NativeSelect>
               </div>
+
               <div className="grid grid-cols-2 gap-2 items-center">
                 <div>Jumlah Gol</div>
                 <Input
                   type="text"
-                  placeholder="0"
+                  placeholder="-"
                   inputMode="numeric"
                   className="text-base placeholder:text-xs"
                   disabled={match.status !== 'live'}
                   value={match.form_result_total_goals!}
                   onChange={(e) => updateTotalGoals(match.id, e.target.value)}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 items-center">
+                <div>Skor</div>
+                <Input
+                  type="text"
+                  placeholder="-"
+                  className="text-base placeholder:text-xs"
+                  disabled={match.status !== 'live'}
+                  value={match.form_result_score!}
+                  onChange={(e) => updateScore(match.id, e.target.value)}
                 />
               </div>
 
@@ -198,6 +222,9 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
                   }
                 >
                   <NativeSelectOption value="">Pilih</NativeSelectOption>
+                  <NativeSelectOption value="NONE">
+                    Tidak ada
+                  </NativeSelectOption>
                   <NativeSelectOption value={match.home_team.code}>
                     {match.home_team.name}
                   </NativeSelectOption>
@@ -218,16 +245,12 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
                   }
                 >
                   <NativeSelectOption value="">Pilih</NativeSelectOption>
-                  <NativeSelectOption value="none" className="text-right">
+                  <NativeSelectOption value="NONE">
                     Tidak ada
                   </NativeSelectOption>
                   <NativeSelectOptGroup label={match.home_team.name}>
                     {getTeamPlayers(match.home_team.code!).map((player) => (
-                      <NativeSelectOption
-                        key={player}
-                        value={player}
-                        className="text-right"
-                      >
+                      <NativeSelectOption key={player} value={player}>
                         {player}
                       </NativeSelectOption>
                     ))}
