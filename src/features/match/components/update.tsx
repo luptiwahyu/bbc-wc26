@@ -4,12 +4,13 @@ import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
 import {
   NativeSelect,
+  NativeSelectOptGroup,
   NativeSelectOption,
 } from '@/shared/components/ui/native-select'
 import Image from 'next/image'
 import { FC, useState } from 'react'
 import { MatchForm, MatchStatus, MatchUpdate } from '../models/match.types'
-import { capitalize } from '@/shared/lib/utils'
+import { capitalize, getTeamPlayers } from '@/shared/lib/utils'
 import { MATCH_STATUSES } from '@/shared/constants'
 import { useUpdateMatch } from '../hooks'
 import { toast } from 'sonner'
@@ -51,6 +52,16 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
       prevMatch.map((match) =>
         match.id === id
           ? { ...match, form_result_first_team_to_score: team }
+          : match
+      )
+    )
+  }
+
+  const updateFirstPlayerToScore = (id: string, player: string) => {
+    setMatches((prevMatch) =>
+      prevMatch.map((match) =>
+        match.id === id
+          ? { ...match, form_result_first_player_to_score: player }
           : match
       )
     )
@@ -193,6 +204,45 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
                   <NativeSelectOption value={match.away_team.code}>
                     {match.away_team.name}
                   </NativeSelectOption>
+                </NativeSelect>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 items-center">
+                <div>Gol Pertama (Pemain)</div>
+                <NativeSelect
+                  className="w-full"
+                  disabled={match.status !== 'live'}
+                  value={match.form_result_first_player_to_score!}
+                  onChange={(e) =>
+                    updateFirstPlayerToScore(match.id, e.target.value)
+                  }
+                >
+                  <NativeSelectOption value="">Pilih</NativeSelectOption>
+                  <NativeSelectOption value="none" className="text-right">
+                    Tidak ada
+                  </NativeSelectOption>
+                  <NativeSelectOptGroup label={match.home_team.name}>
+                    {getTeamPlayers(match.home_team.code!).map((player) => (
+                      <NativeSelectOption
+                        key={player}
+                        value={player}
+                        className="text-right"
+                      >
+                        {player}
+                      </NativeSelectOption>
+                    ))}
+                  </NativeSelectOptGroup>
+                  <NativeSelectOptGroup label={match.away_team.name}>
+                    {getTeamPlayers(match.away_team.code!).map((player) => (
+                      <NativeSelectOption
+                        key={player}
+                        value={player}
+                        className="text-right"
+                      >
+                        {player}
+                      </NativeSelectOption>
+                    ))}
+                  </NativeSelectOptGroup>
                 </NativeSelect>
               </div>
             </form>

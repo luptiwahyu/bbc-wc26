@@ -81,6 +81,26 @@ const Predictions: FC = () => {
                               </TableCell>
                             </TableRow>
                           )}
+                          {!!prediction.predicted_first_team_to_score_name && (
+                            <TableRow>
+                              <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                Gol Pertama (Negara)
+                              </TableCell>
+                              <TableCell className="py-1 pl-0">
+                                {prediction.predicted_first_team_to_score_name}
+                              </TableCell>
+                            </TableRow>
+                          )}
+                          {!!prediction.predicted_first_player_to_score && (
+                            <TableRow>
+                              <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                Gol Pertama (Negara)
+                              </TableCell>
+                              <TableCell className="py-1 pl-0">
+                                {prediction.predicted_first_player_to_score}
+                              </TableCell>
+                            </TableRow>
+                          )}
                         </TableBody>
                       </Table>
                     </CollapsibleContent>
