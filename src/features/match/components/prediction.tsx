@@ -357,6 +357,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
               </InputGroupAddon>
               <NativeSelect
                 id="scorer"
+                style={{ textAlign: 'right' }}
                 className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
                 value={match.prediction.predicted_first_team_to_score!}
                 onChange={(e) =>
@@ -367,22 +368,12 @@ const Prediction: FC<Props> = ({ data, player }) => {
                   )
                 }
               >
-                <NativeSelectOption value="" className="text-right">
-                  Pilih
-                </NativeSelectOption>
-                <NativeSelectOption value="NONE" className="text-right">
-                  Tidak ada
-                </NativeSelectOption>
-                <NativeSelectOption
-                  value={match.home_team.code}
-                  className="text-right"
-                >
+                <NativeSelectOption value="">Pilih</NativeSelectOption>
+                <NativeSelectOption value="NONE">Tidak ada</NativeSelectOption>
+                <NativeSelectOption value={match.home_team.code}>
                   {match.home_team.name}
                 </NativeSelectOption>
-                <NativeSelectOption
-                  value={match.away_team.code}
-                  className="text-right"
-                >
+                <NativeSelectOption value={match.away_team.code}>
                   {match.away_team.name}
                 </NativeSelectOption>
               </NativeSelect>
@@ -397,6 +388,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
               </InputGroupAddon>
               <NativeSelect
                 id="scorer"
+                style={{ textAlign: 'right' }}
                 className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
                 value={match.prediction.predicted_first_player_to_score!}
                 onChange={(e) =>
@@ -407,30 +399,18 @@ const Prediction: FC<Props> = ({ data, player }) => {
                   )
                 }
               >
-                <NativeSelectOption value="" className="text-right">
-                  Pilih
-                </NativeSelectOption>
-                <NativeSelectOption value="NONE" className="text-right">
-                  Tidak ada
-                </NativeSelectOption>
+                <NativeSelectOption value="">Pilih</NativeSelectOption>
+                <NativeSelectOption value="NONE">Tidak ada</NativeSelectOption>
                 <NativeSelectOptGroup label={match.home_team.name}>
                   {getTeamPlayers(match.home_team.code!).map((player) => (
-                    <NativeSelectOption
-                      key={player}
-                      value={player}
-                      className="text-right"
-                    >
+                    <NativeSelectOption key={player} value={player}>
                       {player}
                     </NativeSelectOption>
                   ))}
                 </NativeSelectOptGroup>
                 <NativeSelectOptGroup label={match.away_team.name}>
                   {getTeamPlayers(match.away_team.code!).map((player) => (
-                    <NativeSelectOption
-                      key={player}
-                      value={player}
-                      className="text-right"
-                    >
+                    <NativeSelectOption key={player} value={player}>
                       {player}
                     </NativeSelectOption>
                   ))}
