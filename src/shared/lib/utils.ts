@@ -2,7 +2,13 @@ import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import SecureStorage from './secure-storage'
 import { QueryClient } from '@tanstack/react-query'
-import { STALE_TIME } from '../constants'
+import {
+  ARGENTINA_PLAYERS,
+  ENGLAND_PLAYERS,
+  FRANCE_PLAYERS,
+  SPAIN_PLAYERS,
+  STALE_TIME,
+} from '../constants'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -32,4 +38,19 @@ export const isDataChanged = (
   const initialDataString: string = JSON.stringify(initialData)
   const newDataString: string = JSON.stringify(newData)
   return initialDataString !== newDataString
+}
+
+export const getTeamPlayers = (countryCode: string): string[] => {
+  switch (countryCode) {
+    case 'FRA':
+      return FRANCE_PLAYERS
+    case 'ESP':
+      return SPAIN_PLAYERS
+    case 'ENG':
+      return ENGLAND_PLAYERS
+    case 'ARG':
+      return ARGENTINA_PLAYERS
+    default:
+      return []
+  }
 }

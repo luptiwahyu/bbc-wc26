@@ -25,6 +25,10 @@ export default function MatchUpdatePage() {
             match.result_total_goals === null
               ? ''
               : String(match.result_total_goals),
+          form_result_first_team_to_score:
+            match.result_first_team_to_score ?? '',
+          form_result_first_player_to_score:
+            match.result_first_player_to_score ?? '',
         }
       }) ?? []
     )
