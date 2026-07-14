@@ -357,7 +357,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
               </InputGroupAddon>
               <NativeSelect
                 id="scorer"
-                style={{ textAlign: 'right' }}
+                style={{ textAlign: 'right', direction: 'rtl' }}
                 className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
                 value={match.prediction.predicted_first_team_to_score!}
                 onChange={(e) =>
@@ -388,7 +388,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
               </InputGroupAddon>
               <NativeSelect
                 id="scorer"
-                style={{ textAlign: 'right' }}
+                style={{ textAlign: 'right', direction: 'rtl' }}
                 className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
                 value={match.prediction.predicted_first_player_to_score!}
                 onChange={(e) =>
