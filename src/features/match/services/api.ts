@@ -25,12 +25,22 @@ export const getMatches = async (playerId: string): Promise<Match[]> => {
   return data
     .map((match) => ({
       ...match,
-      prediction: match.predictions?.[0] ?? {
-        predicted_winner: null,
-        predicted_total_goals: null,
-        predicted_first_team_to_score: '',
-        predicted_first_player_to_score: '',
-      },
+      prediction: match.predictions.length
+        ? {
+            ...match.predictions[0],
+            predicted_score_home:
+              match.predictions[0].predicted_score?.split('-')[0],
+            predicted_score_away:
+              match.predictions[0].predicted_score?.split('-')[1],
+          }
+        : {
+            predicted_winner: '',
+            predicted_total_goals: null,
+            predicted_first_team_to_score: '',
+            predicted_first_player_to_score: '',
+            predicted_score_home: '',
+            predicted_score_away: '',
+          },
     }))
     .map(({ predictions, ...match }) => match)
 }

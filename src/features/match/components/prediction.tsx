@@ -22,6 +22,7 @@ import {
   NativeSelectOption,
 } from '@/shared/components/ui/native-select'
 import { getTeamPlayers } from '@/shared/lib/utils'
+import { Input } from '@/shared/components/ui/input'
 
 interface Props {
   data: Match[]
@@ -84,14 +85,14 @@ const Prediction: FC<Props> = ({ data, player }) => {
   }
 
   const handleChangeTotalGoal = (
-    id: string,
+    matchId: string,
     field: string,
     value: string
   ): void => {
     if (value === '' || /^\d+$/.test(value)) {
       setMatches((prev) =>
         prev.map((match) =>
-          match.id === id
+          match.id === matchId
             ? {
                 ...match,
                 prediction: {
@@ -105,7 +106,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
     }
   }
 
-  const handleChangePredictionText = (
+  const updateSetMatch = (
     matchId: string,
     field: string,
     value: string
@@ -123,6 +124,14 @@ const Prediction: FC<Props> = ({ data, player }) => {
           : match
       )
     )
+  }
+
+  const handleChangePredictionText = (
+    matchId: string,
+    field: string,
+    value: string
+  ): void => {
+    updateSetMatch(matchId, field, value)
 
     setTimeout(() => {
       const payload: PredictionUpsert = {
@@ -137,6 +146,36 @@ const Prediction: FC<Props> = ({ data, player }) => {
         },
       })
     }, 500)
+  }
+
+  const handleChangeScore = (
+    matchId: string,
+    field: string,
+    value: string
+  ): void => {
+    if (value === '' || /^\d+$/.test(value)) {
+      updateSetMatch(matchId, field, value)
+    }
+  }
+
+  const saveScore = async (matchId: string) => {
+    const match = matches.find((m) => m.id === matchId)
+    const scoreHome = match?.prediction.predicted_score_home
+    const scoreAway = match?.prediction.predicted_score_away
+
+    if (match && scoreHome && scoreAway) {
+      const payload: PredictionUpsert = {
+        match_id: matchId,
+        player_id: player.id,
+        predicted_score: `${scoreHome}-${scoreAway}`,
+      }
+
+      savePrediction.mutate(payload, {
+        onError: () => {
+          toast.error('Upps ada error!')
+        },
+      })
+    }
   }
 
   return (
@@ -185,7 +224,44 @@ const Prediction: FC<Props> = ({ data, player }) => {
                 {match.home_team.name}
               </FieldLabel>
             </div>
-            <div className="w-10 flex items-center justify-center">VS</div>
+
+            <div className="flex space-x-2 mt-1.5">
+              <div className="w-8 flex items-center justify-center">
+                <Input
+                  placeholder="-"
+                  className="text-center text-base text-muted-foreground font-bold"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={match.prediction.predicted_score_home}
+                  onChange={(e) =>
+                    handleChangeScore(
+                      match.id,
+                      'predicted_score_home',
+                      e.target.value
+                    )
+                  }
+                  onBlur={() => saveScore(match.id)}
+                />
+              </div>
+              <div className="w-8 flex items-center justify-center">
+                <Input
+                  placeholder="-"
+                  className="text-center text-base text-muted-foreground font-bold"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={match.prediction.predicted_score_away}
+                  onChange={(e) =>
+                    handleChangeScore(
+                      match.id,
+                      'predicted_score_away',
+                      e.target.value
+                    )
+                  }
+                  onBlur={() => saveScore(match.id)}
+                />
+              </div>
+            </div>
+
             <div
               className="flex-1 flex flex-col items-center space-y-2 cursor-pointer"
               onClick={() =>
@@ -222,35 +298,37 @@ const Prediction: FC<Props> = ({ data, player }) => {
           </div>
 
           <div className="space-y-0 mt-auto w-full">
-            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
-              <InputGroupAddon
-                className="pl-6 pr-4"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Jumlah Gol
-              </InputGroupAddon>
-              <InputGroupInput
-                type="text"
-                placeholder="Isi"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
-                value={match.prediction.predicted_total_goals ?? ''}
-                onChange={(e) =>
-                  handleChangeTotalGoal(
-                    match.id,
-                    'predicted_total_goals',
-                    e.target.value
-                  )
-                }
-                onBlur={() =>
-                  saveTotalGoal(
-                    match.id,
-                    match.prediction.predicted_total_goals!
-                  )
-                }
-              />
-            </InputGroup>
+            {false && (
+              <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
+                <InputGroupAddon
+                  className="pl-6 pr-4"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Jumlah Gol
+                </InputGroupAddon>
+                <InputGroupInput
+                  type="text"
+                  placeholder="Isi"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
+                  value={match.prediction.predicted_total_goals ?? ''}
+                  onChange={(e) =>
+                    handleChangeTotalGoal(
+                      match.id,
+                      'predicted_total_goals',
+                      e.target.value
+                    )
+                  }
+                  onBlur={() =>
+                    saveTotalGoal(
+                      match.id,
+                      match.prediction.predicted_total_goals!
+                    )
+                  }
+                />
+              </InputGroup>
+            )}
 
             {false && (
               <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
@@ -279,6 +357,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
               </InputGroupAddon>
               <NativeSelect
                 id="scorer"
+                style={{ textAlign: 'right', direction: 'rtl' }}
                 className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
                 value={match.prediction.predicted_first_team_to_score!}
                 onChange={(e) =>
@@ -289,22 +368,12 @@ const Prediction: FC<Props> = ({ data, player }) => {
                   )
                 }
               >
-                <NativeSelectOption value="" className="text-right">
-                  Pilih
-                </NativeSelectOption>
-                <NativeSelectOption value="NONE" className="text-right">
-                  Tidak ada
-                </NativeSelectOption>
-                <NativeSelectOption
-                  value={match.home_team.code}
-                  className="text-right"
-                >
+                <NativeSelectOption value="">Pilih</NativeSelectOption>
+                <NativeSelectOption value="NONE">Tidak ada</NativeSelectOption>
+                <NativeSelectOption value={match.home_team.code}>
                   {match.home_team.name}
                 </NativeSelectOption>
-                <NativeSelectOption
-                  value={match.away_team.code}
-                  className="text-right"
-                >
+                <NativeSelectOption value={match.away_team.code}>
                   {match.away_team.name}
                 </NativeSelectOption>
               </NativeSelect>
@@ -319,6 +388,7 @@ const Prediction: FC<Props> = ({ data, player }) => {
               </InputGroupAddon>
               <NativeSelect
                 id="scorer"
+                style={{ textAlign: 'right', direction: 'rtl' }}
                 className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
                 value={match.prediction.predicted_first_player_to_score!}
                 onChange={(e) =>
@@ -329,30 +399,18 @@ const Prediction: FC<Props> = ({ data, player }) => {
                   )
                 }
               >
-                <NativeSelectOption value="" className="text-right">
-                  Pilih
-                </NativeSelectOption>
-                <NativeSelectOption value="none" className="text-right">
-                  Tidak ada
-                </NativeSelectOption>
+                <NativeSelectOption value="">Pilih</NativeSelectOption>
+                <NativeSelectOption value="NONE">Tidak ada</NativeSelectOption>
                 <NativeSelectOptGroup label={match.home_team.name}>
                   {getTeamPlayers(match.home_team.code!).map((player) => (
-                    <NativeSelectOption
-                      key={player}
-                      value={player}
-                      className="text-right"
-                    >
+                    <NativeSelectOption key={player} value={player}>
                       {player}
                     </NativeSelectOption>
                   ))}
                 </NativeSelectOptGroup>
                 <NativeSelectOptGroup label={match.away_team.name}>
                   {getTeamPlayers(match.away_team.code!).map((player) => (
-                    <NativeSelectOption
-                      key={player}
-                      value={player}
-                      className="text-right"
-                    >
+                    <NativeSelectOption key={player} value={player}>
                       {player}
                     </NativeSelectOption>
                   ))}

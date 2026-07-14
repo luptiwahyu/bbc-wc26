@@ -20,10 +20,15 @@ export type PredictionRow = PredictionsTable['Row']
 
 export type PredictionUpsert = PredictionsTable['Insert']
 
+export interface PredictionForm extends PredictionRow {
+  predicted_score_home: string
+  predicted_score_away: string
+}
+
 export interface Match extends MatchRow {
   home_team: Partial<Country>
   away_team: Partial<Country>
-  prediction: Partial<PredictionRow>
+  prediction: Partial<PredictionForm>
 }
 
 export interface MatchDetail extends MatchRow {
@@ -35,6 +40,7 @@ export interface MatchForm extends MatchDetail {
   form_status: MatchStatus
   form_result_winner?: string | null
   form_result_total_goals?: string | null
+  form_result_score?: string | null
   form_result_first_team_to_score?: string | null
   form_result_first_player_to_score?: string | null
 }
