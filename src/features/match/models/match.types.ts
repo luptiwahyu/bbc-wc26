@@ -35,6 +35,7 @@ export interface MatchForm extends MatchDetail {
   form_status: MatchStatus
   form_result_winner?: string | null
   form_result_total_goals?: string | null
+  form_result_first_team_to_score?: string | null
 }
 
 export interface MatchCreateForm {

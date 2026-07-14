@@ -46,12 +46,23 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
     )
   }
 
+  const updateFirstTeamToScore = (id: string, team: string) => {
+    setMatches((prevMatch) =>
+      prevMatch.map((match) =>
+        match.id === id
+          ? { ...match, form_result_first_team_to_score: team }
+          : match
+      )
+    )
+  }
+
   const saveUpdate = (match: MatchForm): void => {
     const payload: MatchUpdate = {
       id: match.id,
       status: match.form_status,
       result_winner: match.form_result_winner,
       result_total_goals: Number(match.form_result_total_goals) || null,
+      result_first_team_to_score: match.form_result_first_team_to_score,
     }
 
     const updatePromise = new Promise((resolve, reject) => {
@@ -163,6 +174,26 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
                   value={match.form_result_total_goals!}
                   onChange={(e) => updateTotalGoals(match.id, e.target.value)}
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 items-center">
+                <div>Gol Pertama (Negara)</div>
+                <NativeSelect
+                  className="w-full"
+                  disabled={match.status !== 'live'}
+                  value={match.form_result_first_team_to_score!}
+                  onChange={(e) =>
+                    updateFirstTeamToScore(match.id, e.target.value)
+                  }
+                >
+                  <NativeSelectOption value="">Pilih</NativeSelectOption>
+                  <NativeSelectOption value={match.home_team.code}>
+                    {match.home_team.name}
+                  </NativeSelectOption>
+                  <NativeSelectOption value={match.away_team.code}>
+                    {match.away_team.name}
+                  </NativeSelectOption>
+                </NativeSelect>
               </div>
             </form>
           </CardContent>
