@@ -49,6 +49,7 @@ const MatchAds: FC = () => {
                   width={800}
                   height={800}
                   className="rounded-lg aspect-square"
+                  loading="eager"
                 />
               </CarouselItem>
             ))}
