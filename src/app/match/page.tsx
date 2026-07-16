@@ -1,5 +1,6 @@
 'use client'
 
+import MatchAds from '@/features/match/components/ads'
 import Prediction from '@/features/match/components/prediction'
 import { useMatches } from '@/features/match/hooks'
 import { Player } from '@/features/player/models/player.types'
@@ -44,6 +45,7 @@ export default function MatchPage() {
 
       {isPending && <Label>Loading...</Label>}
       {isSuccess && <Prediction data={matches} player={player!} />}
+      <MatchAds />
     </AppContent>
   )
 }
