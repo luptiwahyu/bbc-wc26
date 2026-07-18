@@ -40,6 +40,8 @@ export const getMatches = async (playerId: string): Promise<Match[]> => {
             predicted_first_player_to_score: '',
             predicted_score_home: '',
             predicted_score_away: '',
+            predicted_shots_on_target_home: null,
+            predicted_shots_on_target_away: null,
           },
     }))
     .map(({ predictions, ...match }) => match)

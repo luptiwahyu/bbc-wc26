@@ -5,13 +5,13 @@ export interface PredictionWithMatch {
   predicted_winner: string | null
   predicted_winner_name: string | null
   predicted_total_goals: number | null
-  predicted_total_yellow_cards: number | null
   predicted_first_player_to_score: string | null
   predicted_first_team_to_score: string | null
   predicted_first_team_to_score_name: string | null
-  predicted_first_throw_in: string | null
-  predicted_first_throw_in_name: string | null
   predicted_score: string | null
+  predicted_total_yellow_cards: number | null
+  predicted_shots_on_target_home: number | null
+  predicted_shots_on_target_away: number | null
   match: MatchDetail
 }
 
