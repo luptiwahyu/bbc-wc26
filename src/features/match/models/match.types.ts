@@ -43,6 +43,9 @@ export interface MatchForm extends MatchDetail {
   form_result_score?: string | null
   form_result_first_team_to_score?: string | null
   form_result_first_player_to_score?: string | null
+  form_result_total_yellow_cards?: number | null
+  form_result_shots_on_target_home?: number | null
+  form_result_shots_on_target_away?: number | null
 }
 
 export interface MatchCreateForm {

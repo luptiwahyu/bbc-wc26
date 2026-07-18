@@ -326,9 +326,10 @@ export type Database = {
           result_first_team_to_score: string | null
           result_total_goals: number | null
           result_winner: string | null
-          result_total_yellow_cards: number | null
           result_score: string | null
-          result_first_throw_in: string | null
+          result_total_yellow_cards: number | null
+          result_shots_on_target_home: number | null
+          result_shots_on_target_away: number | null
           status: Database["public"]["Enums"]["wc_match_status"]
         }
         Insert: {
@@ -341,9 +342,10 @@ export type Database = {
           result_first_team_to_score?: string | null
           result_total_goals?: number | null
           result_winner?: string | null
-          result_total_yellow_cards?: number | null
           result_score?: string | null
-          result_first_throw_in?: string | null
+          result_total_yellow_cards?: number | null
+          result_shots_on_target_home?: number | null
+          result_shots_on_target_away?: number | null
           status?: Database["public"]["Enums"]["wc_match_status"]
         }
         Update: {
@@ -356,9 +358,10 @@ export type Database = {
           result_first_team_to_score?: string | null
           result_total_goals?: number | null
           result_winner?: string | null
-          result_total_yellow_cards?: number | null
           result_score?: string | null
-          result_first_throw_in?: string | null
+          result_total_yellow_cards?: number | null
+          result_shots_on_target_home?: number | null
+          result_shots_on_target_away?: number | null
           status?: Database["public"]["Enums"]["wc_match_status"]
         }
         Relationships: [
@@ -535,13 +538,14 @@ export type Database = {
           home_team: Database["public"]["Tables"]["wc_countries"]["Row"]
           home_team_id: string
           id: string
-          result_first_throw_in: string
           result_first_team_to_score: string
           result_first_player_to_score: string
           result_score: string
           result_total_goals: number
-          result_total_yellow_cards: number
           result_winner: string
+          result_total_yellow_cards: number
+          result_shots_on_target_home: number
+          result_shots_on_target_away: number
           status: Database["public"]["Enums"]["wc_match_status"]
         }[]
       }
