@@ -30,6 +30,23 @@ export default function MatchUpdatePage() {
             match.result_first_team_to_score ?? '',
           form_result_first_player_to_score:
             match.result_first_player_to_score ?? '',
+          form_result_first_throw_in: match.result_first_throw_in ?? '',
+          form_result_total_yellow_card_home:
+            match.result_total_yellow_card_home === null
+              ? ''
+              : String(match.result_total_yellow_card_home),
+          form_result_total_yellow_card_away:
+            match.result_total_yellow_card_away === null
+              ? ''
+              : String(match.result_total_yellow_card_away),
+          form_result_shots_on_target_home:
+            match.result_shots_on_target_home === null
+              ? ''
+              : String(match.result_shots_on_target_home),
+          form_result_shots_on_target_away:
+            match.result_shots_on_target_away === null
+              ? ''
+              : String(match.result_shots_on_target_away),
         }
       }) ?? []
     )

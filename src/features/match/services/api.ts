@@ -16,7 +16,8 @@ export const getMatches = async (playerId: string): Promise<Match[]> => {
       predictions:wc_predictions!left (*)`
     )
     .eq('wc_predictions.player_id', playerId)
-    .eq('status', 'live')
+    // .eq('status', 'live')
+    .eq('status', 'upcoming')
     .gte('date', new Date().toISOString())
     .order('date', { ascending: true })
 
@@ -40,7 +41,9 @@ export const getMatches = async (playerId: string): Promise<Match[]> => {
             predicted_first_player_to_score: '',
             predicted_score_home: '',
             predicted_score_away: '',
-            predicted_total_yellow_cards: null,
+            predicted_first_throw_in: '',
+            predicted_total_yellow_card_home: null,
+            predicted_total_yellow_card_away: null,
             predicted_shots_on_target_home: null,
             predicted_shots_on_target_away: null,
           },

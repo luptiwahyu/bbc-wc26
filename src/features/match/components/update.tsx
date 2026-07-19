@@ -75,6 +75,14 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
     )
   }
 
+  const updateSetMatches = (id: string, field: string, value: string) => {
+    setMatches((prevMatch) =>
+      prevMatch.map((match) =>
+        match.id === id ? { ...match, [field]: value } : match
+      )
+    )
+  }
+
   const saveUpdate = (match: MatchForm): void => {
     const payload: MatchUpdate = {
       id: match.id,
@@ -84,6 +92,15 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
       result_score: match.form_result_score,
       result_first_team_to_score: match.form_result_first_team_to_score,
       result_first_player_to_score: match.form_result_first_player_to_score,
+      result_first_throw_in: match.form_result_first_throw_in,
+      result_total_yellow_card_home:
+        Number(match.form_result_total_yellow_card_home) || null,
+      result_total_yellow_card_away:
+        Number(match.form_result_total_yellow_card_away) || null,
+      result_shots_on_target_home:
+        Number(match.form_result_shots_on_target_home) || null,
+      result_shots_on_target_away:
+        Number(match.form_result_shots_on_target_away) || null,
     }
 
     const updatePromise = new Promise((resolve, reject) => {
@@ -267,6 +284,106 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
                     ))}
                   </NativeSelectOptGroup>
                 </NativeSelect>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 items-center">
+                <div>First Throw-in</div>
+                <NativeSelect
+                  className="w-full"
+                  disabled={match.status !== 'live'}
+                  value={match.form_result_first_throw_in!}
+                  onChange={(e) =>
+                    updateSetMatches(
+                      match.id,
+                      'form_result_first_throw_in',
+                      e.target.value
+                    )
+                  }
+                >
+                  <NativeSelectOption value="">Pilih</NativeSelectOption>
+                  <NativeSelectOption value={match.home_team.name}>
+                    {match.home_team.name}
+                  </NativeSelectOption>
+                  <NativeSelectOption value={match.away_team.name}>
+                    {match.away_team.name}
+                  </NativeSelectOption>
+                </NativeSelect>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 items-center">
+                <div>Kartu Kuning {match.home_team.name}</div>
+                <Input
+                  type="text"
+                  placeholder="-"
+                  inputMode="numeric"
+                  className="text-base placeholder:text-xs"
+                  disabled={match.status !== 'live'}
+                  value={match.form_result_total_yellow_card_home!}
+                  onChange={(e) =>
+                    updateSetMatches(
+                      match.id,
+                      'form_result_total_yellow_card_home',
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 items-center">
+                <div>Kartu Kuning {match.away_team.name}</div>
+                <Input
+                  type="text"
+                  placeholder="-"
+                  inputMode="numeric"
+                  className="text-base placeholder:text-xs"
+                  disabled={match.status !== 'live'}
+                  value={match.form_result_total_yellow_card_away!}
+                  onChange={(e) =>
+                    updateSetMatches(
+                      match.id,
+                      'form_result_total_yellow_card_away',
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 items-center">
+                <div>Shots on Target {match.home_team.name}</div>
+                <Input
+                  type="text"
+                  placeholder="-"
+                  inputMode="numeric"
+                  className="text-base placeholder:text-xs"
+                  disabled={match.status !== 'live'}
+                  value={match.form_result_shots_on_target_home!}
+                  onChange={(e) =>
+                    updateSetMatches(
+                      match.id,
+                      'form_result_shots_on_target_home',
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 items-center">
+                <div>Shots on Target {match.away_team.name}</div>
+                <Input
+                  type="text"
+                  placeholder="-"
+                  inputMode="numeric"
+                  className="text-base placeholder:text-xs"
+                  disabled={match.status !== 'live'}
+                  value={match.form_result_shots_on_target_away!}
+                  onChange={(e) =>
+                    updateSetMatches(
+                      match.id,
+                      'form_result_shots_on_target_away',
+                      e.target.value
+                    )
+                  }
+                />
               </div>
             </form>
           </CardContent>

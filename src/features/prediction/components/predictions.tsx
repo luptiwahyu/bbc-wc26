@@ -129,14 +129,26 @@ const Predictions: FC = () => {
                               </TableRow>
                             )}
 
-                            {prediction.predicted_total_yellow_cards !==
+                            {prediction.predicted_total_yellow_card_home !==
                               null && (
                               <TableRow>
                                 <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
-                                  Jumlah Kartu Kuning
+                                  Kartu Kuning {prediction.match.home_team.name}
                                 </TableCell>
                                 <TableCell className="py-1 pl-0">
-                                  {prediction.predicted_total_yellow_cards}
+                                  {prediction.predicted_total_yellow_card_home}
+                                </TableCell>
+                              </TableRow>
+                            )}
+
+                            {prediction.predicted_total_yellow_card_away !==
+                              null && (
+                              <TableRow>
+                                <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                  Kartu Kuning {prediction.match.away_team.name}
+                                </TableCell>
+                                <TableCell className="py-1 pl-0">
+                                  {prediction.predicted_total_yellow_card_away}
                                 </TableCell>
                               </TableRow>
                             )}

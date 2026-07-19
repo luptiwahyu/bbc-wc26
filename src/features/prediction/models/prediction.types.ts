@@ -9,7 +9,9 @@ export interface PredictionWithMatch {
   predicted_first_team_to_score: string | null
   predicted_first_team_to_score_name: string | null
   predicted_score: string | null
-  predicted_total_yellow_cards: number | null
+  predicted_first_throw_in: string | null
+  predicted_total_yellow_card_home: number | null
+  predicted_total_yellow_card_away: number | null
   predicted_shots_on_target_home: number | null
   predicted_shots_on_target_away: number | null
   match: MatchDetail
