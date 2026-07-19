@@ -324,11 +324,14 @@ export type Database = {
           id: string
           result_first_player_to_score: string | null
           result_first_team_to_score: string | null
-          result_total_goals: number | null
-          result_winner: string | null
-          result_total_yellow_cards: number | null
-          result_score: string | null
           result_first_throw_in: string | null
+          result_score: string | null
+          result_shots_on_target_away: number | null
+          result_shots_on_target_home: number | null
+          result_total_goals: number | null
+          result_total_yellow_card_away: number | null
+          result_total_yellow_card_home: number | null
+          result_winner: string | null
           status: Database["public"]["Enums"]["wc_match_status"]
         }
         Insert: {
@@ -339,11 +342,14 @@ export type Database = {
           id?: string
           result_first_player_to_score?: string | null
           result_first_team_to_score?: string | null
-          result_total_goals?: number | null
-          result_winner?: string | null
-          result_total_yellow_cards?: number | null
-          result_score?: string | null
           result_first_throw_in?: string | null
+          result_score?: string | null
+          result_shots_on_target_away?: number | null
+          result_shots_on_target_home?: number | null
+          result_total_goals?: number | null
+          result_total_yellow_card_away?: number | null
+          result_total_yellow_card_home?: number | null
+          result_winner?: string | null
           status?: Database["public"]["Enums"]["wc_match_status"]
         }
         Update: {
@@ -354,11 +360,14 @@ export type Database = {
           id?: string
           result_first_player_to_score?: string | null
           result_first_team_to_score?: string | null
-          result_total_goals?: number | null
-          result_winner?: string | null
-          result_total_yellow_cards?: number | null
-          result_score?: string | null
           result_first_throw_in?: string | null
+          result_score?: string | null
+          result_shots_on_target_away?: number | null
+          result_shots_on_target_home?: number | null
+          result_total_goals?: number | null
+          result_total_yellow_card_away?: number | null
+          result_total_yellow_card_home?: number | null
+          result_winner?: string | null
           status?: Database["public"]["Enums"]["wc_match_status"]
         }
         Relationships: [
@@ -403,11 +412,14 @@ export type Database = {
           player_id: string
           predicted_first_player_to_score: string | null
           predicted_first_team_to_score: string | null
-          predicted_total_goals: number | null
-          predicted_winner: string
-          predicted_total_yellow_cards: number | null
-          predicted_score: string | null
           predicted_first_throw_in: string | null
+          predicted_score: string | null
+          predicted_shots_on_target_away: number | null
+          predicted_shots_on_target_home: number | null
+          predicted_total_goals: number | null
+          predicted_total_yellow_card_away: number | null
+          predicted_total_yellow_card_home: number | null
+          predicted_winner: string
           submitted_at: string
         }
         Insert: {
@@ -416,11 +428,14 @@ export type Database = {
           player_id: string
           predicted_first_player_to_score?: string | null
           predicted_first_team_to_score?: string | null
-          predicted_total_goals?: number | null
-          predicted_winner?: string
-          predicted_total_yellow_cards?: number | null
-          predicted_score?: string | null
           predicted_first_throw_in?: string | null
+          predicted_score?: string | null
+          predicted_shots_on_target_away?: number | null
+          predicted_shots_on_target_home?: number | null
+          predicted_total_goals?: number | null
+          predicted_total_yellow_card_away?: number | null
+          predicted_total_yellow_card_home?: number | null
+          predicted_winner?: string
           submitted_at?: string
         }
         Update: {
@@ -429,11 +444,14 @@ export type Database = {
           player_id?: string
           predicted_first_player_to_score?: string | null
           predicted_first_team_to_score?: string | null
-          predicted_total_goals?: number | null
-          predicted_winner?: string
-          predicted_total_yellow_cards?: number | null
-          predicted_score?: string | null
           predicted_first_throw_in?: string | null
+          predicted_score?: string | null
+          predicted_shots_on_target_away?: number | null
+          predicted_shots_on_target_home?: number | null
+          predicted_total_goals?: number | null
+          predicted_total_yellow_card_away?: number | null
+          predicted_total_yellow_card_home?: number | null
+          predicted_winner?: string
           submitted_at?: string
         }
         Relationships: [
@@ -532,12 +550,15 @@ export type Database = {
           home_team: Database["public"]["Tables"]["wc_countries"]["Row"]
           home_team_id: string
           id: string
-          result_first_throw_in: string
-          result_first_team_to_score: string
           result_first_player_to_score: string
+          result_first_team_to_score: string
+          result_first_throw_in: string
           result_score: string
+          result_shots_on_target_away: number
+          result_shots_on_target_home: number
           result_total_goals: number
-          result_total_yellow_cards: number
+          result_total_yellow_card_away: number
+          result_total_yellow_card_home: number
           result_winner: string
           status: Database["public"]["Enums"]["wc_match_status"]
         }[]
@@ -565,9 +586,12 @@ export type Database = {
         result_total_goals: number | null
         result_first_player_to_score: string | null
         result_first_team_to_score: string | null
-        result_total_yellow_cards: number | null
         result_score: string | null
         result_first_throw_in: string | null
+        result_total_yellow_card_home: number | null
+        result_total_yellow_card_away: number | null
+        result_shots_on_target_home: number | null
+        result_shots_on_target_away: number | null
         home_team: Database["public"]["Tables"]["wc_countries"]["Row"] | null
         away_team: Database["public"]["Tables"]["wc_countries"]["Row"] | null
       }
@@ -576,13 +600,15 @@ export type Database = {
         predicted_winner: string | null
         predicted_winner_name: string | null
         predicted_total_goals: number | null
-        predicted_total_yellow_cards: number | null
         predicted_first_player_to_score: string | null
         predicted_first_team_to_score: string | null
         predicted_first_team_to_score_name: string | null
-        predicted_first_throw_in: string | null
-        predicted_first_throw_in_name: string | null
         predicted_score: string | null
+        predicted_first_throw_in: string | null
+        predicted_total_yellow_card_home: number | null
+        predicted_total_yellow_card_away: number | null
+        predicted_shots_on_target_home: number | null
+        predicted_shots_on_target_away: number | null
         match: Database["public"]["CompositeTypes"]["wc_match_detail"] | null
       }
     }

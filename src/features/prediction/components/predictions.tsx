@@ -82,6 +82,7 @@ const Predictions: FC = () => {
                                 </TableCell>
                               </TableRow>
                             )}
+
                             {prediction.predicted_total_goals !== null && (
                               <TableRow>
                                 <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
@@ -92,6 +93,7 @@ const Predictions: FC = () => {
                                 </TableCell>
                               </TableRow>
                             )}
+
                             {!!prediction.predicted_score && (
                               <TableRow>
                                 <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
@@ -102,6 +104,7 @@ const Predictions: FC = () => {
                                 </TableCell>
                               </TableRow>
                             )}
+
                             {!!prediction.predicted_first_team_to_score_name && (
                               <TableRow>
                                 <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
@@ -114,6 +117,7 @@ const Predictions: FC = () => {
                                 </TableCell>
                               </TableRow>
                             )}
+
                             {!!prediction.predicted_first_player_to_score && (
                               <TableRow>
                                 <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
@@ -121,6 +125,67 @@ const Predictions: FC = () => {
                                 </TableCell>
                                 <TableCell className="py-1 pl-0">
                                   {prediction.predicted_first_player_to_score}
+                                </TableCell>
+                              </TableRow>
+                            )}
+
+                            {!!prediction.predicted_first_throw_in && (
+                              <TableRow>
+                                <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                  First Throw-in
+                                </TableCell>
+                                <TableCell className="py-1 pl-0">
+                                  {prediction.predicted_first_throw_in}
+                                </TableCell>
+                              </TableRow>
+                            )}
+
+                            {prediction.predicted_total_yellow_card_home !==
+                              null && (
+                              <TableRow>
+                                <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                  Kartu Kuning {prediction.match.home_team.name}
+                                </TableCell>
+                                <TableCell className="py-1 pl-0">
+                                  {prediction.predicted_total_yellow_card_home}
+                                </TableCell>
+                              </TableRow>
+                            )}
+
+                            {prediction.predicted_total_yellow_card_away !==
+                              null && (
+                              <TableRow>
+                                <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                  Kartu Kuning {prediction.match.away_team.name}
+                                </TableCell>
+                                <TableCell className="py-1 pl-0">
+                                  {prediction.predicted_total_yellow_card_away}
+                                </TableCell>
+                              </TableRow>
+                            )}
+
+                            {prediction.predicted_shots_on_target_home !==
+                              null && (
+                              <TableRow>
+                                <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                  Shots on Target{' '}
+                                  {prediction.match.home_team.name}
+                                </TableCell>
+                                <TableCell className="py-1 pl-0">
+                                  {prediction.predicted_shots_on_target_home}
+                                </TableCell>
+                              </TableRow>
+                            )}
+
+                            {prediction.predicted_shots_on_target_away !==
+                              null && (
+                              <TableRow>
+                                <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                  Shots on Target{' '}
+                                  {prediction.match.away_team.name}
+                                </TableCell>
+                                <TableCell className="py-1 pl-0">
+                                  {prediction.predicted_shots_on_target_away}
                                 </TableCell>
                               </TableRow>
                             )}

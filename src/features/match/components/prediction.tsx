@@ -70,42 +70,6 @@ const Prediction: FC<Props> = ({ data, player }) => {
     }
   }
 
-  const saveTotalGoal = async (matchId: string, value: number) => {
-    const payload: PredictionUpsert = {
-      match_id: matchId,
-      player_id: player.id,
-      predicted_total_goals: value,
-    }
-
-    savePrediction.mutate(payload, {
-      onError: () => {
-        toast.error('Upps ada error!')
-      },
-    })
-  }
-
-  const handleChangeTotalGoal = (
-    matchId: string,
-    field: string,
-    value: string
-  ): void => {
-    if (value === '' || /^\d+$/.test(value)) {
-      setMatches((prev) =>
-        prev.map((match) =>
-          match.id === matchId
-            ? {
-                ...match,
-                prediction: {
-                  ...match.prediction,
-                  predicted_total_goals: Number(value),
-                },
-              }
-            : match
-        )
-      )
-    }
-  }
-
   const updateSetMatch = (
     matchId: string,
     field: string,
@@ -176,6 +140,46 @@ const Prediction: FC<Props> = ({ data, player }) => {
         },
       })
     }
+  }
+
+  const updateSetMatchNumber = (
+    matchId: string,
+    field: string,
+    value: string
+  ): void => {
+    if (value === '' || /^\d+$/.test(value)) {
+      setMatches((prev) =>
+        prev.map((match) =>
+          match.id === matchId
+            ? {
+                ...match,
+                prediction: {
+                  ...match.prediction,
+                  [field]: Number(value),
+                },
+              }
+            : match
+        )
+      )
+    }
+  }
+
+  const handleChangePredictionNumber = (
+    matchId: string,
+    field: string,
+    value: string
+  ): void => {
+    const payload: PredictionUpsert = {
+      match_id: matchId,
+      player_id: player.id,
+      [field]: value || null,
+    }
+
+    savePrediction.mutate(payload, {
+      onError: () => {
+        toast.error('Upps ada error!')
+      },
+    })
   }
 
   return (
@@ -314,36 +318,19 @@ const Prediction: FC<Props> = ({ data, player }) => {
                   className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
                   value={match.prediction.predicted_total_goals ?? ''}
                   onChange={(e) =>
-                    handleChangeTotalGoal(
+                    updateSetMatchNumber(
                       match.id,
                       'predicted_total_goals',
                       e.target.value
                     )
                   }
-                  onBlur={() =>
-                    saveTotalGoal(
+                  onBlur={(e) =>
+                    handleChangePredictionNumber(
                       match.id,
-                      match.prediction.predicted_total_goals!
+                      'predicted_total_goals',
+                      e.target.value
                     )
                   }
-                />
-              </InputGroup>
-            )}
-
-            {false && (
-              <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
-                <InputGroupAddon
-                  className="pl-6 pr-4"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  Jumlah Kartu Kuning
-                </InputGroupAddon>
-                <InputGroupInput
-                  type="text"
-                  placeholder="Isi"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
                 />
               </InputGroup>
             )}
@@ -416,6 +403,180 @@ const Prediction: FC<Props> = ({ data, player }) => {
                   ))}
                 </NativeSelectOptGroup>
               </NativeSelect>
+            </InputGroup>
+
+            {false && (
+              <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0 flex">
+                <InputGroupAddon
+                  className="pl-6 pr-4 flex-none"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  VAR Bantu {match.away_team.name}
+                </InputGroupAddon>
+                <NativeSelect
+                  id="scorer"
+                  style={{ textAlign: 'right', direction: 'rtl' }}
+                  className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
+                >
+                  <NativeSelectOption value="">Pilih</NativeSelectOption>
+                  <NativeSelectOption value="NO">Gaklah</NativeSelectOption>
+                  <NativeSelectOption value="YES">Jelas</NativeSelectOption>
+                </NativeSelect>
+              </InputGroup>
+            )}
+
+            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0 flex">
+              <InputGroupAddon
+                className="pl-6 pr-4 flex-none"
+                onClick={(e) => e.stopPropagation()}
+              >
+                First Throw-in
+              </InputGroupAddon>
+              <NativeSelect
+                id="scorer"
+                style={{ textAlign: 'right', direction: 'rtl' }}
+                className="grow mr-4 border-0 focus-visible:border-none focus-visible:ring-0 bg-transparent text-muted-foreground"
+                value={match.prediction.predicted_first_throw_in!}
+                onChange={(e) =>
+                  handleChangePredictionText(
+                    match.id,
+                    'predicted_first_throw_in',
+                    e.target.value
+                  )
+                }
+              >
+                <NativeSelectOption value="">Pilih</NativeSelectOption>
+                <NativeSelectOption value={match.home_team.name}>
+                  {match.home_team.name}
+                </NativeSelectOption>
+                <NativeSelectOption value={match.away_team.name}>
+                  {match.away_team.name}
+                </NativeSelectOption>
+              </NativeSelect>
+            </InputGroup>
+
+            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
+              <InputGroupAddon
+                className="pl-6 pr-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Kartu Kuning {match.home_team.name}
+              </InputGroupAddon>
+              <InputGroupInput
+                type="text"
+                placeholder="Isi"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
+                value={match.prediction.predicted_total_yellow_card_home ?? ''}
+                onChange={(e) =>
+                  updateSetMatchNumber(
+                    match.id,
+                    'predicted_total_yellow_card_home',
+                    e.target.value
+                  )
+                }
+                onBlur={(e) =>
+                  handleChangePredictionNumber(
+                    match.id,
+                    'predicted_total_yellow_card_home',
+                    e.target.value
+                  )
+                }
+              />
+            </InputGroup>
+
+            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
+              <InputGroupAddon
+                className="pl-6 pr-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Kartu Kuning {match.away_team.name}
+              </InputGroupAddon>
+              <InputGroupInput
+                type="text"
+                placeholder="Isi"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
+                value={match.prediction.predicted_total_yellow_card_away ?? ''}
+                onChange={(e) =>
+                  updateSetMatchNumber(
+                    match.id,
+                    'predicted_total_yellow_card_away',
+                    e.target.value
+                  )
+                }
+                onBlur={(e) =>
+                  handleChangePredictionNumber(
+                    match.id,
+                    'predicted_total_yellow_card_away',
+                    e.target.value
+                  )
+                }
+              />
+            </InputGroup>
+
+            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
+              <InputGroupAddon
+                className="pl-6 pr-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Shots on Target {match.home_team.name}
+              </InputGroupAddon>
+              <InputGroupInput
+                type="text"
+                placeholder="Isi"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
+                value={match.prediction.predicted_shots_on_target_home ?? ''}
+                onChange={(e) =>
+                  updateSetMatchNumber(
+                    match.id,
+                    'predicted_shots_on_target_home',
+                    e.target.value
+                  )
+                }
+                onBlur={(e) =>
+                  handleChangePredictionNumber(
+                    match.id,
+                    'predicted_shots_on_target_home',
+                    e.target.value
+                  )
+                }
+              />
+            </InputGroup>
+
+            <InputGroup className="rounded-none border-l-0 border-r-0 border-b-0">
+              <InputGroupAddon
+                className="pl-6 pr-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Shots on Target {match.away_team.name}
+              </InputGroupAddon>
+              <InputGroupInput
+                type="text"
+                placeholder="Isi"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                className="pr-6 text-base text-right placeholder:text-xs text-muted-foreground"
+                value={match.prediction.predicted_shots_on_target_away ?? ''}
+                onChange={(e) =>
+                  updateSetMatchNumber(
+                    match.id,
+                    'predicted_shots_on_target_away',
+                    e.target.value
+                  )
+                }
+                onBlur={(e) =>
+                  handleChangePredictionNumber(
+                    match.id,
+                    'predicted_shots_on_target_away',
+                    e.target.value
+                  )
+                }
+              />
             </InputGroup>
           </div>
         </Item>
