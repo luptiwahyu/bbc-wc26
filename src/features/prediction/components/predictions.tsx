@@ -129,6 +129,17 @@ const Predictions: FC = () => {
                               </TableRow>
                             )}
 
+                            {!!prediction.predicted_first_throw_in && (
+                              <TableRow>
+                                <TableCell className="py-1 pl-0 max-w-1/2 whitespace-normal">
+                                  First Throw-in
+                                </TableCell>
+                                <TableCell className="py-1 pl-0">
+                                  {prediction.predicted_first_throw_in}
+                                </TableCell>
+                              </TableRow>
+                            )}
+
                             {prediction.predicted_total_yellow_card_home !==
                               null && (
                               <TableRow>

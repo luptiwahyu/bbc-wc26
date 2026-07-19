@@ -16,8 +16,7 @@ export const getMatches = async (playerId: string): Promise<Match[]> => {
       predictions:wc_predictions!left (*)`
     )
     .eq('wc_predictions.player_id', playerId)
-    // .eq('status', 'live')
-    .eq('status', 'upcoming')
+    .eq('status', 'live')
     .gte('date', new Date().toISOString())
     .order('date', { ascending: true })
 

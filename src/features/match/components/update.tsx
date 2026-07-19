@@ -84,23 +84,27 @@ const MatchUpdateManagement: FC<Props> = ({ data }) => {
   }
 
   const saveUpdate = (match: MatchForm): void => {
+    const {
+      form_result_total_goals: totalGoals,
+      form_result_total_yellow_card_home: tycHome,
+      form_result_total_yellow_card_away: tycAway,
+      form_result_shots_on_target_home: sotHome,
+      form_result_shots_on_target_away: sotAway,
+    } = match
+
     const payload: MatchUpdate = {
       id: match.id,
       status: match.form_status,
       result_winner: match.form_result_winner,
-      result_total_goals: Number(match.form_result_total_goals) || null,
+      result_total_goals: !!totalGoals ? Number(totalGoals) : null,
       result_score: match.form_result_score,
       result_first_team_to_score: match.form_result_first_team_to_score,
       result_first_player_to_score: match.form_result_first_player_to_score,
       result_first_throw_in: match.form_result_first_throw_in,
-      result_total_yellow_card_home:
-        Number(match.form_result_total_yellow_card_home) || null,
-      result_total_yellow_card_away:
-        Number(match.form_result_total_yellow_card_away) || null,
-      result_shots_on_target_home:
-        Number(match.form_result_shots_on_target_home) || null,
-      result_shots_on_target_away:
-        Number(match.form_result_shots_on_target_away) || null,
+      result_total_yellow_card_home: !!tycHome ? Number(tycHome) : null,
+      result_total_yellow_card_away: !!tycAway ? Number(tycAway) : null,
+      result_shots_on_target_home: !!sotHome ? Number(sotHome) : null,
+      result_shots_on_target_away: !!sotAway ? Number(sotAway) : null,
     }
 
     const updatePromise = new Promise((resolve, reject) => {
