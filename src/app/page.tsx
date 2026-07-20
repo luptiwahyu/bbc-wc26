@@ -9,6 +9,6 @@ export default function Home() {
   useEffect(() => {
     const player = appStorage.get<Player>('player')
     if (!player) redirect('/player')
-    else redirect('/match')
+    else redirect('/tournaments')
   }, [])
 }
